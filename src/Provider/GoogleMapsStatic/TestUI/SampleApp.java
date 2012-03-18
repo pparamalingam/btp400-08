@@ -220,7 +220,23 @@ private void _displayImgInFrame() {
   GUIUtils.centerOnScreen(frame);
   frame.setVisible(true);
 */  
+  mapPane.removeAll();
+  mapPane.add(btnZoomin);
+  mapPane.add(btnZoomout);
   mapPane.add(imgLbl, BorderLayout.CENTER);
+  
+	
+}
+
+private void _displayImgAfterZoom(){
+	
+	  
+		
+	  JLabel imgLbl = new JLabel(new ImageIcon(_img));
+	  imgLbl.setToolTipText(MessageFormat.format("<html>Image downloaded from URI<br>size: w={0}, h={1}</html>",
+	                                             _img.getWidth(), _img.getHeight()));
+	  
+	  mapPane.add(imgLbl, BorderLayout.CENTER);
 	
 }
 private void _displayRespStrInFrame() {
@@ -289,7 +305,11 @@ private void quitProgram() {
 private void initComponents() {
   // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
   // Generated using JFormDesigner non-commercial license
+  panel4 = new JPanel();
+  btnZoomin = new JButton();
+  btnZoomout = new JButton();
   mapPane = new JPanel();	
+  
   dialogPane = new JPanel();
   contentPanel = new JPanel();
   panel1 = new JPanel();
@@ -504,6 +524,52 @@ private void initComponents() {
   	mapPane.setOpaque(false);
   	mapPane.setLayout(new BorderLayout());
   	
+  		//===== panel4 =====
+  		panel4.setOpaque(false);
+		panel4.setLayout(new GridLayout(1, 2));
+			//---- btnZoomin ----
+  			btnZoomin.setSize(2, 2);
+  			btnZoomin.setText("+");
+  			btnZoomin.setHorizontalAlignment(SwingConstants.LEFT);
+  			btnZoomin.setHorizontalTextPosition(SwingConstants.RIGHT);
+  			btnZoomin.setOpaque(true);
+  			btnZoomin.addActionListener(new ActionListener() {
+  				public void actionPerformed(ActionEvent e) {
+  				int x = Integer.parseInt(ttfZoom.getText());
+  				x++;
+  				ttfZoom.setText(Integer.toString(x));
+  			  
+  			  
+  				startTaskAction();
+  				mapPane.repaint();
+				//quitProgram();
+  				}
+  			});
+  			
+			//---- btnZoomout ----
+  			btnZoomout.setSize(2, 2);
+  			btnZoomout.setText("-");
+  			btnZoomout.setHorizontalAlignment(SwingConstants.LEFT);
+  			btnZoomout.setHorizontalTextPosition(SwingConstants.RIGHT);
+  			btnZoomout.setOpaque(true);
+  			btnZoomout.addActionListener(new ActionListener() {
+  				public void actionPerformed(ActionEvent e) {
+  				int x = Integer.parseInt(ttfZoom.getText());
+  				x--;
+  				ttfZoom.setText(Integer.toString(x));
+  			  
+  			  
+  				startTaskAction();
+  				mapPane.repaint();
+				//quitProgram();
+  				}
+  			});
+  			
+  			
+  		panel4.add(btnZoomin, BorderLayout.NORTH);
+  		panel4.add(btnZoomout, BorderLayout.SOUTH);
+	
+	mapPane.add(panel4, BorderLayout.NORTH);
   	
   }
   contentPane.add(dialogPane, BorderLayout.WEST);
@@ -515,7 +581,11 @@ private void initComponents() {
 
 // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 // Generated using JFormDesigner non-commercial license
+private JPanel panel4;
+private JButton btnZoomin;
+private JButton btnZoomout;
 private JPanel mapPane;
+
 private JPanel dialogPane;
 private JPanel contentPanel;
 private JPanel panel1;
