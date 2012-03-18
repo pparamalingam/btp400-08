@@ -1,1 +1,4 @@
 - Have to fix warnings in current build (not mandatory according to pliu)
+- Embeded map into app and added zoom in and zoom out buttons (March 18 2012)
+  * Overall look of the app will not be handled until near completion
+  * May add history funtionality to avoid constant querying of Google servers (time premitting)
