@@ -198,15 +198,15 @@ private SwingUIHookAdapter _initHook(SwingUIHookAdapter hook) {
 }
 
 private void _displayImgInFrame() {
-
+/*
   final JFrame frame = new JFrame("Google Static Map");
   GUIUtils.setAppIcon(frame, "71.png");
   frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
+*/
   JLabel imgLbl = new JLabel(new ImageIcon(_img));
   imgLbl.setToolTipText(MessageFormat.format("<html>Image downloaded from URI<br>size: w={0}, h={1}</html>",
                                              _img.getWidth(), _img.getHeight()));
-  imgLbl.addMouseListener(new MouseListener() {
+/*  imgLbl.addMouseListener(new MouseListener() {
     public void mouseClicked(MouseEvent e) {}
     public void mousePressed(MouseEvent e) { frame.dispose();}
     public void mouseReleased(MouseEvent e) { }
@@ -219,8 +219,10 @@ private void _displayImgInFrame() {
 
   GUIUtils.centerOnScreen(frame);
   frame.setVisible(true);
+*/  
+  mapPane.add(imgLbl, BorderLayout.CENTER);
+	
 }
-
 private void _displayRespStrInFrame() {
 
   final JFrame frame = new JFrame("Google Static Map - Error");
@@ -287,6 +289,7 @@ private void quitProgram() {
 private void initComponents() {
   // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
   // Generated using JFormDesigner non-commercial license
+  mapPane = new JPanel();	
   dialogPane = new JPanel();
   contentPanel = new JPanel();
   panel1 = new JPanel();
@@ -333,8 +336,8 @@ private void initComponents() {
   		contentPanel.setLayout(new TableLayout(new double[][] {
   			{TableLayout.FILL},
   			{TableLayout.PREFERRED, TableLayout.FILL, TableLayout.PREFERRED}}));
-  		((TableLayout)contentPanel.getLayout()).setHGap(5);
-  		((TableLayout)contentPanel.getLayout()).setVGap(5);
+  		((TableLayout)contentPanel.getLayout()).setHGap(8);
+  		((TableLayout)contentPanel.getLayout()).setVGap(8);
 
   		//======== panel1 ========
   		{
@@ -368,7 +371,7 @@ private void initComponents() {
 
   			//---- btnGetMap ----
   			btnGetMap.setText("Get Map");
-  			btnGetMap.setHorizontalAlignment(SwingConstants.LEFT);
+  			btnGetMap.setHorizontalAlignment(SwingConstants.CENTER);
   			btnGetMap.setMnemonic('G');
   			btnGetMap.addActionListener(new ActionListener() {
   				public void actionPerformed(ActionEvent e) {
@@ -490,17 +493,29 @@ private void initComponents() {
   			panel2.add(lblProgressStatus, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
   		}
   		contentPanel.add(panel2, new TableLayoutConstraints(0, 2, 0, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  		
   	}
   	dialogPane.add(contentPanel, BorderLayout.CENTER);
   }
-  contentPane.add(dialogPane, BorderLayout.CENTER);
-  setSize(675, 485);
+  
+  //======== mapPane ========
+  {
+  	mapPane.setBorder(new EmptyBorder(12, 12, 12, 12));
+  	mapPane.setOpaque(false);
+  	mapPane.setLayout(new BorderLayout());
+  	
+  	
+  }
+  contentPane.add(dialogPane, BorderLayout.WEST);
+  contentPane.add(mapPane, BorderLayout.EAST);
+  setSize(1600, 485);
   setLocationRelativeTo(null);
   // JFormDesigner - End of component initialization  //GEN-END:initComponents
 }
 
 // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 // Generated using JFormDesigner non-commercial license
+private JPanel mapPane;
 private JPanel dialogPane;
 private JPanel contentPanel;
 private JPanel panel1;
