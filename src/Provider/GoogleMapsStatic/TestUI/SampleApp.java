@@ -87,7 +87,7 @@ private void _setupTask() {
                                     Double.parseDouble(ttfLon.getText()),
                                     Integer.parseInt(ttfSizeW.getText()),
                                     Integer.parseInt(ttfSizeH.getText()),
-                                    Integer.parseInt(ttfZoom.getText())
+                                    mapZoom
       );
       sout("Google Maps URI=" + uri);
 
@@ -445,6 +445,7 @@ private void initComponents() {
   			panel1.add(label6, new TableLayoutConstraints(2, 2, 2, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- ttfZoom ----
+  			mapZoom = 14;
   			ttfZoom.setText("14");
   			panel1.add(ttfZoom, new TableLayoutConstraints(3, 2, 3, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
   		}
@@ -537,6 +538,7 @@ private void initComponents() {
   				public void actionPerformed(ActionEvent e) {
   				int x = Integer.parseInt(ttfZoom.getText());
   				x++;
+  				mapZoom = x;
   				ttfZoom.setText(Integer.toString(x));
   			  
   			  
@@ -612,5 +614,6 @@ private JCheckBox checkboxSendStatus;
 private JTextField ttfProgressMsg;
 private JProgressBar progressBar;
 private JLabel lblProgressStatus;
+private int mapZoom;
 // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
