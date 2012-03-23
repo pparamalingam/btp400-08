@@ -36,7 +36,7 @@ public static final int SizeMin = 10;
 public static final int SizeMax = 512;
 public static final int SizeDefault = SizeMax;
 
-public static final String MarkerSeparator = "|";
+public static final String MarkerSeparator = "&markers=";
 public static final String MarkersKey = "markers";
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

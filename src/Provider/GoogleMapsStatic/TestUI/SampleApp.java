@@ -22,6 +22,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.beans.*;
+import java.net.*;
 import java.text.*;
 import java.util.concurrent.*;
 
@@ -83,12 +84,19 @@ private void _setupTask() {
       // set the license key
       MapLookup.setLicenseKey(ttfLicense.getText());
       // get the uri for the static map
-      String uri = MapLookup.getMap(Double.parseDouble(ttfLat.getText()),
+      
+      double x = Double.parseDouble(ttfLat.getText());
+      double y = Double.parseDouble(ttfLon.getText());
+      String uri = MapLookup.getMap(
+    		  						Double.parseDouble(ttfLat.getText()),
                                     Double.parseDouble(ttfLon.getText()),
                                     Integer.parseInt(ttfSizeW.getText()),
                                     Integer.parseInt(ttfSizeH.getText()),
-                                    mapZoom
+                                    new MapMarker(40.931099, -76.3489, MapMarker.MarkerColor.green, 'v'),
+    		  						new MapMarker(38.931099, -77.3489, MapMarker.MarkerColor.red, 'n')
+      								
       );
+      String bob = new String(uri.getBytes(), "UTF-8");
       sout("Google Maps URI=" + uri);
 
       // get the map from Google
@@ -336,6 +344,7 @@ private void initComponents() {
   ttfProgressMsg = new JTextField();
   progressBar = new JProgressBar();
   lblProgressStatus = new JLabel();
+  
 
   //======== this ========
   setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -615,5 +624,6 @@ private JTextField ttfProgressMsg;
 private JProgressBar progressBar;
 private JLabel lblProgressStatus;
 private int mapZoom;
+private MapMarker marker;
 // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
