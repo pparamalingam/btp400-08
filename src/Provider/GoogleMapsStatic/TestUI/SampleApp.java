@@ -22,7 +22,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.beans.*;
-import java.net.*;
 import java.text.*;
 import java.util.concurrent.*;
 
@@ -97,7 +96,7 @@ private void _setupTask() {
                                     new MapMarker(x+2, y-1, MapMarker.MarkerColor.red, 'n')
       								
       );
-      String bob = new String(uri.getBytes(), "UTF-8");
+      
       sout("Google Maps URI=" + uri);
 
       // get the map from Google
@@ -237,7 +236,7 @@ private void _displayImgInFrame() {
 	
 }
 
-private void _displayImgAfterZoom(){
+/*private void _displayImgAfterZoom(){
 	
 	  
 		
@@ -247,7 +246,7 @@ private void _displayImgAfterZoom(){
 	  
 	  mapPane.add(imgLbl, BorderLayout.CENTER);
 	
-}
+}*/
 private void _displayRespStrInFrame() {
 
   final JFrame frame = new JFrame("Google Static Map - Error");
@@ -531,7 +530,7 @@ private void initComponents() {
   
   //======== mapPane ========
   {
-  	mapPane.setBorder(new EmptyBorder(12, 12, 12, 12));
+  	mapPane.setBorder(new EmptyBorder(8, 8, 8, 8));
   	mapPane.setOpaque(false);
   	mapPane.setLayout(new BorderLayout());
   	
@@ -625,6 +624,5 @@ private JTextField ttfProgressMsg;
 private JProgressBar progressBar;
 private JLabel lblProgressStatus;
 private int mapZoom;
-private MapMarker marker;
 // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
