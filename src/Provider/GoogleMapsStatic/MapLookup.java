@@ -67,6 +67,10 @@ public static String getMap(double lat, double lon, int sizeW, int sizeH, int zo
   return _map.getURI(lat, lon, sizeW, sizeH, zoom);
 }
 
+public static String getMap(double lat, double lon, int sizeW, int sizeH, int zoom, MapMarker... markers) {
+	  return _map.getURI(lat, lon, sizeW, sizeH, zoom, markers);
+	}
+
 public static String getMap(double lat, double lon, int sizeW, int sizeH, MapMarker... markers) {
   return _map.getURI(lat, lon, sizeW, sizeH, markers);
 }
@@ -138,6 +142,41 @@ public String getURI(double lat, double lon, int sizeW, int sizeH, int zoom) {
 
   return sb.toString();
 }
+
+public String getURI(double lat, double lon, int sizeW, int sizeH, int zoom, MapMarker... markers) {
+	  _validateParams(sizeW, sizeH, zoom);
+
+	  // generate the URI
+	  StringBuilder sb = new StringBuilder();
+	  sb.append(GmapStaticURI);
+
+	  // center key
+	  sb.
+	      append("?").
+	      append(CenterKey).append("=").append(lat).append(",").append(lon);
+
+	  // zoom key
+	  sb.
+	      append("&").
+	      append(ZoomKey).append("=").append(zoom);
+
+	  // size key
+	  sb.
+	      append("&").
+	      append(SizeKey).append("=").append(sizeW).append(SizeSeparator).append(sizeH);
+
+	  // markers key
+	  sb.
+	      append("&").
+	      append(MarkerUtils.toString(markers));
+
+	  // maps key
+	  sb.
+	      append("&").
+	      append(GmapLicenseKey).append("=").append(GmapLicense);
+
+	  return sb.toString();
+	}
 
 private void _validateParams(int sizeW, int sizeH, int zoom) {
   if (zoom < ZoomMin || zoom > ZoomMax)

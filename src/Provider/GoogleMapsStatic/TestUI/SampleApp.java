@@ -92,8 +92,9 @@ private void _setupTask() {
                                     Double.parseDouble(ttfLon.getText()),
                                     Integer.parseInt(ttfSizeW.getText()),
                                     Integer.parseInt(ttfSizeH.getText()),
-                                    new MapMarker(40.931099, -76.3489, MapMarker.MarkerColor.green, 'v'),
-    		  						new MapMarker(38.931099, -77.3489, MapMarker.MarkerColor.red, 'n')
+                                    mapZoom,
+                                    new MapMarker(x, y, MapMarker.MarkerColor.green, 'v'),
+                                    new MapMarker(x+2, y-1, MapMarker.MarkerColor.red, 'n')
       								
       );
       String bob = new String(uri.getBytes(), "UTF-8");
@@ -567,6 +568,7 @@ private void initComponents() {
   				public void actionPerformed(ActionEvent e) {
   				int x = Integer.parseInt(ttfZoom.getText());
   				x--;
+  				mapZoom = x;
   				ttfZoom.setText(Integer.toString(x));
   			  
   			  
