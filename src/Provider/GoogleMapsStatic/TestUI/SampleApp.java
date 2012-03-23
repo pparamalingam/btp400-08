@@ -352,7 +352,7 @@ private void initComponents() {
   setTitle("Google Static Maps");
   setIconImage(null);
   Container contentPane = getContentPane();
-  contentPane.setLayout(new BorderLayout());
+  contentPane.setLayout(new GridLayout(1,2));
 
   //======== dialogPane ========
   {
@@ -537,7 +537,8 @@ private void initComponents() {
   	
   		//===== panel4 =====
   		panel4.setOpaque(false);
-		panel4.setLayout(new GridLayout(1, 2));
+		panel4.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
 			//---- btnZoomin ----
   			btnZoomin.setSize(2, 2);
   			btnZoomin.setText("+");
@@ -557,7 +558,8 @@ private void initComponents() {
 				//quitProgram();
   				}
   			});
-  			
+  			c.gridwidth = 3;
+  			panel4.add(btnZoomin, c);
 			//---- btnZoomout ----
   			btnZoomout.setSize(2, 2);
   			btnZoomout.setText("-");
@@ -577,12 +579,9 @@ private void initComponents() {
 				//quitProgram();
   				}
   			});
-  			
-  			
-  		panel4.add(btnZoomin, BorderLayout.NORTH);
-  		panel4.add(btnZoomout, BorderLayout.SOUTH);
+  		panel4.add(btnZoomout, c);
 	
-	mapPane.add(panel4, BorderLayout.NORTH);
+	mapPane.add(panel4, BorderLayout.WEST);
   	
   }
   contentPane.add(dialogPane, BorderLayout.WEST);
