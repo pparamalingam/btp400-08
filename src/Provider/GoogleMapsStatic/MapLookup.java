@@ -21,6 +21,7 @@ public class MapLookup {
 // constants
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 public static final String GmapStaticURI = "http://maps.google.com/staticmap";
+public static final String GmapStatApiUri = "http://maps.google.com/maps/api/staticmap";
 public static final String GmapLicenseKey = "key";
 
 public static final String CenterKey = "center";
@@ -74,6 +75,10 @@ public static String getMap(double lat, double lon, int sizeW, int sizeH, int zo
 
 public static String getMap(double lat, double lon, int sizeW, int sizeH, int zoom, MapMarker... markers) {
 	  return _map.getURI(lat, lon, sizeW, sizeH, zoom, markers);
+	}
+
+public static String getMap(String address, String city, String state, int sizeW, int sizeH, int zoom, MapMarker... markers) {
+	  return _map.getURI(address, city,state, sizeW, sizeH, zoom, markers);
 	}
 
 public static String getMap(double lat, double lon, int sizeW, int sizeH, MapMarker... markers) {
@@ -159,6 +164,45 @@ public String getURI(double lat, double lon, int sizeW, int sizeH, int zoom, Map
 	  sb.
 	      append("?").
 	      append(CenterKey).append("=").append(lat).append(",").append(lon);
+
+	  // zoom key
+	  sb.
+	      append("&").
+	      append(ZoomKey).append("=").append(zoom);
+
+	  // size key
+	  sb.
+	      append("&").
+	      append(SizeKey).append("=").append(sizeW).append(SizeSeparator).append(sizeH);
+
+	  // markers key
+	  sb.
+	      append("&").
+	      append(MarkerUtils.toString(markers));
+
+	  // maps key
+	  sb.
+	      append("&").
+	      append(GmapLicenseKey).append("=").append(GmapLicense);
+
+	  return sb.toString();
+	}
+
+public String getURI(String address, String city, String state, int sizeW, int sizeH, int zoom, MapMarker... markers) {
+	  _validateParams(sizeW, sizeH, zoom);
+	  
+	   city= city.replaceAll("\\s+", "+");
+	   state= state.replaceAll("\\s+", "+");
+	   address= address.replaceAll("\\s+", "+");
+	   
+	  // generate the URI
+	  StringBuilder sb = new StringBuilder();
+	  sb.append(GmapStatApiUri);
+
+	  // center key
+	  sb.
+	      append("?").
+	      append(CenterKey).append("=").append(address).append(",").append(city).append(",").append(state);
 
 	  // zoom key
 	  sb.

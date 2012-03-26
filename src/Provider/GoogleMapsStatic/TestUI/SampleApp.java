@@ -87,19 +87,25 @@ private void _setupTask() {
       MapLookup.setLicenseKey(ttfLicense.getText());
       // get the uri for the static map
       
-      double x = Double.parseDouble(ttfLat.getText());
-      double y = Double.parseDouble(ttfLon.getText());
-      String uri = MapLookup.getMap(
-    		  						Double.parseDouble(ttfLat.getText()),
+      double x = Double.parseDouble(ttfLat.getText()) + 3;
+      double y = Double.parseDouble(ttfLon.getText()) - 3;
+      String uri = MapLookup.getMap( "1600 Amphitheatre Pky",
+    		  						 "ountain View",
+    		  						 "CA",
+                                     Integer.parseInt(ttfSizeW.getText()),
+                                     Integer.parseInt(ttfSizeH.getText()),
+                                     mapZoom,
+                                     new MapMarker(38.931099, -77.3489, MapMarker.MarkerColor.green, 'v'),
+                                     new MapMarker(x+2, y-1, MapMarker.MarkerColor.red, 'n')
+      								
+      );
+   /*   		  						Double.parseDouble(ttfLat.getText()),
                                     Double.parseDouble(ttfLon.getText()),
                                     Integer.parseInt(ttfSizeW.getText()),
                                     Integer.parseInt(ttfSizeH.getText()),
                                     mapZoom,
-                                    new MapMarker(x, y, MapMarker.MarkerColor.green, 'v'),
-                                    new MapMarker(x+2, y-1, MapMarker.MarkerColor.red, 'n')
-      								
-      );
-      
+                                    new MapMarker(38.931099, -77.3489, MapMarker.MarkerColor.green, 'v'),
+                                    new MapMarker(x+2, y-1, MapMarker.MarkerColor.red, 'n')*/   
       sout("Google Maps URI=" + uri);
 
       // get the map from Google
@@ -462,12 +468,12 @@ private void initComponents() {
   			//---- label6 ----
   			label6.setText("Zoom");
   			label6.setHorizontalAlignment(SwingConstants.RIGHT);
-  			panel1.add(label6, new TableLayoutConstraints(2, 2, 2, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  			//panel1.add(label6, new TableLayoutConstraints(2, 2, 2, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- ttfZoom ----
   			mapZoom = 14;
   			ttfZoom.setText("14");
-  			panel1.add(ttfZoom, new TableLayoutConstraints(3, 2, 3, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  		//	panel1.add(ttfZoom, new TableLayoutConstraints(3, 2, 3, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
   		}
   		contentPanel.add(panel1, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
@@ -604,13 +610,11 @@ private void initComponents() {
   	  				x = x+ 131.072/java.lang.Math.pow (2,mapZoom+1);
   	  				if (x > 85)
   	  					x = x - 170;
-  	  				//mapZoom = x;
   	  				ttfLat.setText(Double.toString(x));
   	  			  
   	  			  
   	  				startTaskAction();
   	  				mapPane.repaint();
-  					//quitProgram();
   				}
   			});
   			panel4.add(btnPanUp, c);
@@ -627,13 +631,11 @@ private void initComponents() {
   	  				x = x - 131.072/java.lang.Math.pow (2,mapZoom+1);
   	  				if (x < -85)
   	  					x = x + 170;
-  	  				//mapZoom = x;
   	  				ttfLat.setText(Double.toString(x));
   	  			  
   	  			  
   	  				startTaskAction();
   	  				mapPane.repaint();
-  					//quitProgram();
   				}
   			});
   			panel4.add(btnPanDown, c);
@@ -650,13 +652,11 @@ private void initComponents() {
   	  				x = x - 131.072/java.lang.Math.pow (2,mapZoom+1);
   	  				if (x < -175)
   	  					x = x + 350;
-  	  				//mapZoom = x;
   	  				ttfLon.setText(Double.toString(x));
   	  			  
   	  			  
   	  				startTaskAction();
   	  				mapPane.repaint();
-  					//quitProgram();
   				}
   			});
   			panel4.add(btnPanLeft, c);
@@ -673,21 +673,22 @@ private void initComponents() {
   	  				x = x + 131.072/java.lang.Math.pow (2,mapZoom+1);
   	  				if (x > 175)
   	  					x = x - 350;
-  	  				//mapZoom = x;
   	  				ttfLon.setText(Double.toString(x));
   	  			  
   	  			  
   	  				startTaskAction();
   	  				mapPane.repaint();
-  					//quitProgram();
   				}
   			});
   			panel4.add(btnPanRight, c);
   			
   			sldZoom.setMajorTickSpacing(19);
   			sldZoom.setMinorTickSpacing(1);
+  			sldZoom.setForeground(Color.black);
   			sldZoom.setPaintTicks(true);
   			sldZoom.setPaintLabels(true);
+  			sldZoom.setPaintTrack(true);
+  			sldZoom.setSnapToTicks(true);
   			sldZoom.addChangeListener(new ChangeListener(){
   				public void stateChanged(ChangeEvent e) {
   					JSlider source = (JSlider)e.getSource();
@@ -697,7 +698,6 @@ private void initComponents() {
   				}
   			});
   			panel4.add(sldZoom, c);
-	
 	mapPane.add(panel4, BorderLayout.WEST);
   	
   }
