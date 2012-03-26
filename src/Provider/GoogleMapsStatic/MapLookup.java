@@ -39,6 +39,11 @@ public static final int SizeDefault = SizeMax;
 public static final String MarkerSeparator = "%7C"; //%7C is the URL-Safe encoding for "|" pipe character
 public static final String MarkersKey = "markers";
 
+
+//******Path declaration vars go here *********
+//&path=rgba:0xff000099,weight:6|37.39561,-122.08952|37.39125,-122.07064&zoom=13 (format)
+
+
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // data
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

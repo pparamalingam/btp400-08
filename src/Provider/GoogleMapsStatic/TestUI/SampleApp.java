@@ -18,6 +18,9 @@ import org.apache.commons.httpclient.methods.*;
 import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -229,8 +232,11 @@ private void _displayImgInFrame() {
   frame.setVisible(true);
 */  
   mapPane.removeAll();
-  mapPane.add(btnZoomin);
-  mapPane.add(btnZoomout);
+ // mapPane.add(btnZoomin);
+ // mapPane.add(btnZoomout);
+ // mapPane.add(btnPanUp);
+	mapPane.add(panel4, BorderLayout.WEST);
+
   mapPane.add(imgLbl, BorderLayout.CENTER);
   
 	
@@ -317,6 +323,11 @@ private void initComponents() {
   btnZoomin = new JButton();
   btnZoomout = new JButton();
   mapPane = new JPanel();	
+  btnPanUp = new JButton();
+  btnPanDown = new JButton();
+  btnPanLeft = new JButton();
+  btnPanRight = new JButton();
+  sldZoom = new JSlider(JSlider.VERTICAL, 0, 19, 14);
   
   dialogPane = new JPanel();
   contentPanel = new JPanel();
@@ -538,7 +549,7 @@ private void initComponents() {
   		panel4.setOpaque(false);
 		panel4.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-			//---- btnZoomin ----
+/*			//---- btnZoomin ----
   			btnZoomin.setSize(2, 2);
   			btnZoomin.setText("+");
   			btnZoomin.setHorizontalAlignment(SwingConstants.LEFT);
@@ -559,6 +570,7 @@ private void initComponents() {
   			});
   			c.gridwidth = 3;
   			panel4.add(btnZoomin, c);
+  			
 			//---- btnZoomout ----
   			btnZoomout.setSize(2, 2);
   			btnZoomout.setText("-");
@@ -578,7 +590,113 @@ private void initComponents() {
 				//quitProgram();
   				}
   			});
-  		panel4.add(btnZoomout, c);
+  			panel4.add(btnZoomout, c);*/
+  			
+  			btnPanUp.setSize(2,2);
+  			btnPanUp.setText("^");
+  			btnPanUp.setHorizontalAlignment(SwingConstants.LEFT);
+  			btnPanUp.setHorizontalTextPosition(SwingConstants.RIGHT);
+  			btnPanUp.setOpaque(true);
+  			btnPanUp.addActionListener(new ActionListener() {
+  				public void actionPerformed(ActionEvent e) {
+  	  				double x = Double.parseDouble(ttfLat.getText());
+  	  				
+  	  				x = x+ 131.072/java.lang.Math.pow (2,mapZoom+1);
+  	  				if (x > 85)
+  	  					x = x - 170;
+  	  				//mapZoom = x;
+  	  				ttfLat.setText(Double.toString(x));
+  	  			  
+  	  			  
+  	  				startTaskAction();
+  	  				mapPane.repaint();
+  					//quitProgram();
+  				}
+  			});
+  			panel4.add(btnPanUp, c);
+  			
+  			btnPanDown.setSize(2,2);
+  			btnPanDown.setText("v");
+  			btnPanDown.setHorizontalAlignment(SwingConstants.LEFT);
+  			btnPanDown.setHorizontalTextPosition(SwingConstants.RIGHT);
+  			btnPanDown.setOpaque(true);
+  			btnPanDown.addActionListener(new ActionListener() {
+  				public void actionPerformed(ActionEvent e) {
+  	  				double x = Double.parseDouble(ttfLat.getText());
+  	  				
+  	  				x = x - 131.072/java.lang.Math.pow (2,mapZoom+1);
+  	  				if (x < -85)
+  	  					x = x + 170;
+  	  				//mapZoom = x;
+  	  				ttfLat.setText(Double.toString(x));
+  	  			  
+  	  			  
+  	  				startTaskAction();
+  	  				mapPane.repaint();
+  					//quitProgram();
+  				}
+  			});
+  			panel4.add(btnPanDown, c);
+  			
+  			btnPanLeft.setSize(2,2);
+  			btnPanLeft.setText("<");
+  			btnPanLeft.setHorizontalAlignment(SwingConstants.LEFT);
+  			btnPanLeft.setHorizontalTextPosition(SwingConstants.RIGHT);
+  			btnPanLeft.setOpaque(true);
+  			btnPanLeft.addActionListener(new ActionListener() {
+  				public void actionPerformed(ActionEvent e) {
+  	  				double x = Double.parseDouble(ttfLon.getText());
+  	  				
+  	  				x = x - 131.072/java.lang.Math.pow (2,mapZoom+1);
+  	  				if (x < -175)
+  	  					x = x + 350;
+  	  				//mapZoom = x;
+  	  				ttfLon.setText(Double.toString(x));
+  	  			  
+  	  			  
+  	  				startTaskAction();
+  	  				mapPane.repaint();
+  					//quitProgram();
+  				}
+  			});
+  			panel4.add(btnPanLeft, c);
+  			
+  			btnPanRight.setSize(2,2);
+  			btnPanRight.setText(">");
+  			btnPanRight.setHorizontalAlignment(SwingConstants.LEFT);
+  			btnPanRight.setHorizontalTextPosition(SwingConstants.RIGHT);
+  			btnPanRight.setOpaque(true);
+  			btnPanRight.addActionListener(new ActionListener() {
+  				public void actionPerformed(ActionEvent e) {
+  	  				double x = Double.parseDouble(ttfLon.getText());
+  	  				
+  	  				x = x + 131.072/java.lang.Math.pow (2,mapZoom+1);
+  	  				if (x > 175)
+  	  					x = x - 350;
+  	  				//mapZoom = x;
+  	  				ttfLon.setText(Double.toString(x));
+  	  			  
+  	  			  
+  	  				startTaskAction();
+  	  				mapPane.repaint();
+  					//quitProgram();
+  				}
+  			});
+  			panel4.add(btnPanRight, c);
+  			
+  			sldZoom.setMajorTickSpacing(19);
+  			sldZoom.setMinorTickSpacing(1);
+  			sldZoom.setPaintTicks(true);
+  			sldZoom.setPaintLabels(true);
+  			sldZoom.addChangeListener(new ChangeListener(){
+  				public void stateChanged(ChangeEvent e) {
+  					JSlider source = (JSlider)e.getSource();
+  					mapZoom = (int)source.getValue();
+  					startTaskAction();
+  					mapPane.repaint();
+  				}
+  			});
+  			panel4.add(sldZoom, c);
 	
 	mapPane.add(panel4, BorderLayout.WEST);
   	
@@ -596,6 +714,11 @@ private JPanel panel4;
 private JButton btnZoomin;
 private JButton btnZoomout;
 private JPanel mapPane;
+private JButton btnPanUp;
+private JButton btnPanDown;
+private JButton btnPanLeft;
+private JButton btnPanRight;
+private JSlider sldZoom;
 
 private JPanel dialogPane;
 private JPanel contentPanel;
