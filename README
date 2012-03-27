@@ -5,4 +5,16 @@
   
 - Finally configured EGIT with MAC, need to set up on Windows
 - Configured EGIT with Windows  
-  
+
+=== Update (March 26 2012) ===
+- Map embeded without any major issues
+- Zooming implemented using JSlider
+- Panning implemented using JButtons
+- Way-Points partially implemented using markers
+- Full address search (street,city,province) implemented
+  * Using DOM XML parsing to parse Google Geocode/Geolocation API
+
+Things Left:
+- Add routes between markers (using closest known point to lat/lon)
+  * Need to parse (using DOM) Google Direction Service API for encoded path points
+- Make the application look prettier
