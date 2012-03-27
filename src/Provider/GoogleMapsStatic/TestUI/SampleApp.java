@@ -121,7 +121,7 @@ private void _setupTask() {
 	 
 			      Element eElement = (Element) nNode;
 			      String check = getTagValue("status", eElement);
-			      if ((address.getText().isEmpty()==false) ||(check.equals("OK") && lat.equals("empty")==false)){
+			      if ((address.getText().isEmpty()==false) && (check.equals("OK") && lat.equals("empty")==false)){
 			    	   lat = getTagValue("lat", eElement);
 			    	   lon = getTagValue("lng", eElement);
 			    	   ttfLat.setText(lat);
@@ -129,7 +129,6 @@ private void _setupTask() {
 			    	   lat = "empty";
 			    	   lon = "empty";
 			    	   address.setText("");
-			    	   
 			      }
 			       
 			   }
