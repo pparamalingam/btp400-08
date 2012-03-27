@@ -11,6 +11,8 @@ import Task.ProgressMonitor.*;
 import Task.Support.CoreSupport.*;
 import Task.Support.GUISupport.*;
 import com.jgoodies.forms.factories.*;
+import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
+
 import info.clearthought.layout.*;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.*;
@@ -27,6 +29,19 @@ import java.awt.image.*;
 import java.beans.*;
 import java.text.*;
 import java.util.concurrent.*;
+
+import java.io.StringReader;
+import java.net.URL;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.CharacterData;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 /** @author nazmul idris */
 public class SampleApp extends JFrame {
@@ -74,6 +89,9 @@ private void doInit() {
 
 /** create a test task and wire it up with a task handler that dumps output to the textarea */
 @SuppressWarnings("unchecked")
+
+
+
 private void _setupTask() {
 
   TaskExecutorIF<ByteBuffer> functor = new TaskExecutorAdapter<ByteBuffer>() {
@@ -85,33 +103,67 @@ private void _setupTask() {
 
       // set the license key
       MapLookup.setLicenseKey(ttfLicense.getText());
-      // get the uri for the static map
+     // address.setText("38 Fairview Rd West");
+     // city.setText("Mississauga");
+    //  state.setText("ON");
       
+      String xml = MapLookup.getMap(address.getText(), city.getText(), state.getText());
+      
+      //Handle XML - http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      DocumentBuilder db = dbf.newDocumentBuilder();
+      Document doc = db.parse(new URL(xml).openStream());
+      NodeList nodes = doc.getElementsByTagName("GeocodeResponse");
+		for (int temp = 0; temp < nodes.getLength(); temp++) {
+			 
+			   Node nNode = nodes.item(temp);
+			   if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	 
+			      Element eElement = (Element) nNode;
+			      String check = getTagValue("status", eElement);
+			      if ((address.getText().isEmpty()==false) ||(check.equals("OK") && lat.equals("empty")==false)){
+			    	   lat = getTagValue("lat", eElement);
+			    	   lon = getTagValue("lng", eElement);
+			    	   ttfLat.setText(lat);
+			    	   ttfLon.setText(lon);
+			    	   lat = "empty";
+			    	   lon = "empty";
+			    	   address.setText("");
+			    	   
+			      }
+			       
+			   }
+			}
+      
+      // get the uri for the static map
+		
       double x = Double.parseDouble(ttfLat.getText()) + 3;
       double y = Double.parseDouble(ttfLon.getText()) - 3;
-      String uri = MapLookup.getMap( "1600 Amphitheatre Pky",
+      String uri = MapLookup.getMap( /*"1600 Amphitheatre Pky",
     		  						 "ountain View",
     		  						 "CA",
                                      Integer.parseInt(ttfSizeW.getText()),
                                      Integer.parseInt(ttfSizeH.getText()),
                                      mapZoom,
                                      new MapMarker(38.931099, -77.3489, MapMarker.MarkerColor.green, 'v'),
-                                     new MapMarker(x+2, y-1, MapMarker.MarkerColor.red, 'n')
+                                     new MapMarker(x+2, y-1, MapMarker.MarkerColor.red, 'n')*/
+    		  Double.parseDouble(ttfLat.getText()),
+              Double.parseDouble(ttfLon.getText()),
+              Integer.parseInt(ttfSizeW.getText()),
+              Integer.parseInt(ttfSizeH.getText()),
+              mapZoom,
+              new MapMarker(38.931099, -77.3489, MapMarker.MarkerColor.green, 'v'),
+              new MapMarker(x+2, y-1, MapMarker.MarkerColor.red, 'n') 
       								
       );
-   /*   		  						Double.parseDouble(ttfLat.getText()),
-                                    Double.parseDouble(ttfLon.getText()),
-                                    Integer.parseInt(ttfSizeW.getText()),
-                                    Integer.parseInt(ttfSizeH.getText()),
-                                    mapZoom,
-                                    new MapMarker(38.931099, -77.3489, MapMarker.MarkerColor.green, 'v'),
-                                    new MapMarker(x+2, y-1, MapMarker.MarkerColor.red, 'n')*/   
+      		  						 
       sout("Google Maps URI=" + uri);
 
       // get the map from Google
       GetMethod get = new GetMethod(uri);
       new HttpClient().executeMethod(get);
 
+      
       ByteBuffer data = HttpUtils.getMonitoredResponse(hook, get);
 
       try {
@@ -212,6 +264,15 @@ private SwingUIHookAdapter _initHook(SwingUIHookAdapter hook) {
   });
 
   return hook;
+}
+
+//Method Source from http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
+private static String getTagValue(String sTag, Element eElement) {
+	NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
+
+      Node nValue = (Node) nlList.item(0);
+
+	return nValue.getNodeValue();
 }
 
 private void _displayImgInFrame() {
@@ -334,6 +395,9 @@ private void initComponents() {
   btnPanLeft = new JButton();
   btnPanRight = new JButton();
   sldZoom = new JSlider(JSlider.VERTICAL, 0, 19, 14);
+  address = new JTextField();
+  city = new JTextField();
+  state = new JTextField();
   
   dialogPane = new JPanel();
   contentPanel = new JPanel();
@@ -412,7 +476,7 @@ private void initComponents() {
   			panel1.add(label4, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- ttfLat ----
-  			ttfLat.setText("38.931099");
+  			//ttfLat.setText("38.931099");
   			panel1.add(ttfLat, new TableLayoutConstraints(3, 0, 3, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- btnGetMap ----
@@ -441,7 +505,7 @@ private void initComponents() {
   			panel1.add(label5, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- ttfLon ----
-  			ttfLon.setText("-77.3489");
+  			//ttfLon.setText("-77.3489");
   			panel1.add(ttfLon, new TableLayoutConstraints(3, 1, 3, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- btnQuit ----
@@ -466,14 +530,17 @@ private void initComponents() {
   			panel1.add(ttfLicense, new TableLayoutConstraints(1, 2, 1, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- label6 ----
-  			label6.setText("Zoom");
+  			label6.setText("Address");
   			label6.setHorizontalAlignment(SwingConstants.RIGHT);
-  			//panel1.add(label6, new TableLayoutConstraints(2, 2, 2, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  			panel1.add(label6, new TableLayoutConstraints(2, 2, 2, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- ttfZoom ----
   			mapZoom = 14;
   			ttfZoom.setText("14");
-  		//	panel1.add(ttfZoom, new TableLayoutConstraints(3, 2, 3, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  			panel1.add(address, new TableLayoutConstraints(3, 2, 3, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  			panel1.add(city, new TableLayoutConstraints(5, 2, 5, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  			
+  			
   		}
   		contentPanel.add(panel1, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
@@ -540,7 +607,6 @@ private void initComponents() {
   			panel2.add(lblProgressStatus, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
   		}
   		contentPanel.add(panel2, new TableLayoutConstraints(0, 2, 0, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-  		
   	}
   	dialogPane.add(contentPanel, BorderLayout.CENTER);
   }
@@ -719,6 +785,11 @@ private JButton btnPanDown;
 private JButton btnPanLeft;
 private JButton btnPanRight;
 private JSlider sldZoom;
+private JTextField address;
+private JTextField city;
+private JTextField state;
+private String lat ="";
+private String lon ="";
 
 private JPanel dialogPane;
 private JPanel contentPanel;

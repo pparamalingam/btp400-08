@@ -22,6 +22,7 @@ public class MapLookup {
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 public static final String GmapStaticURI = "http://maps.google.com/staticmap";
 public static final String GmapStatApiUri = "http://maps.google.com/maps/api/staticmap";
+public static final String GmapStatXmlUri = "http://maps.googleapis.com/maps/api/geocode/xml?address=";
 public static final String GmapLicenseKey = "key";
 
 public static final String CenterKey = "center";
@@ -85,6 +86,9 @@ public static String getMap(double lat, double lon, int sizeW, int sizeH, MapMar
   return _map.getURI(lat, lon, sizeW, sizeH, markers);
 }
 
+public static String getMap(String address, String city, String state){
+	return _map.getURI(address, city, state);
+}
 public static String getMap(double lat, double lon, MapMarker... markers) {
   return getMap(lat, lon, SizeMax, SizeMax, markers);
 }
@@ -223,6 +227,29 @@ public String getURI(String address, String city, String state, int sizeW, int s
 	  sb.
 	      append("&").
 	      append(GmapLicenseKey).append("=").append(GmapLicense);
+
+	  return sb.toString();
+	}
+
+//XML URI Handle
+public String getURI(String address, String city, String state) {
+	  //_validateParams(sizeW, sizeH, zoom);
+	  
+	   city= city.replaceAll("\\s+", "+");
+	   state= state.replaceAll("\\s+", "+");
+	   address= address.replaceAll("\\s+", "+");
+	   
+	  // generate the URI
+	  StringBuilder sb = new StringBuilder();
+	  sb.append(GmapStatXmlUri);
+
+	  // Address Line
+	  sb. 
+	      append(address).append(",").append(city).append(",").append(state);
+
+	  // Sensor Line
+	  sb.
+	      append("&sensor=false");
 
 	  return sb.toString();
 	}
