@@ -11,7 +11,7 @@ import Task.ProgressMonitor.*;
 import Task.Support.CoreSupport.*;
 import Task.Support.GUISupport.*;
 import com.jgoodies.forms.factories.*;
-import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
+
 
 import info.clearthought.layout.*;
 import org.apache.commons.httpclient.*;
@@ -30,18 +30,18 @@ import java.beans.*;
 import java.text.*;
 import java.util.concurrent.*;
 
-import java.io.StringReader;
+
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.w3c.dom.CharacterData;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+
 
 /** @author nazmul idris */
 public class SampleApp extends JFrame {
@@ -103,11 +103,8 @@ private void _setupTask() {
 
       // set the license key
       MapLookup.setLicenseKey(ttfLicense.getText());
-     // address.setText("38 Fairview Rd West");
-     // city.setText("Mississauga");
-    //  state.setText("ON");
       
-      String xml = MapLookup.getMap(address.getText(), city.getText(), state.getText());
+      String xml = MapLookup.getMap(address.getText());
       
       //Handle XML - http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
       DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -124,6 +121,8 @@ private void _setupTask() {
 			      if ((address.getText().isEmpty()==false) && (check.equals("OK") && lat.equals("empty")==false)){
 			    	   lat = getTagValue("lat", eElement);
 			    	   lon = getTagValue("lng", eElement);
+			    	   int w = nodes.getLength();
+			    	   city.setText(Integer.toString(w));
 			    	   ttfLat.setText(lat);
 			    	   ttfLon.setText(lon);
 			    	   lat = "empty";
@@ -135,7 +134,7 @@ private void _setupTask() {
 			}
       
       // get the uri for the static map
-		
+		//city.setText(addressList);
       double x = Double.parseDouble(ttfLat.getText()) + 3;
       double y = Double.parseDouble(ttfLon.getText()) - 3;
       String uri = MapLookup.getMap( /*"1600 Amphitheatre Pky",
@@ -386,8 +385,6 @@ private void initComponents() {
   // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
   // Generated using JFormDesigner non-commercial license
   panel4 = new JPanel();
-  btnZoomin = new JButton();
-  btnZoomout = new JButton();
   mapPane = new JPanel();	
   btnPanUp = new JButton();
   btnPanDown = new JButton();
@@ -776,8 +773,6 @@ private void initComponents() {
 // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 // Generated using JFormDesigner non-commercial license
 private JPanel panel4;
-private JButton btnZoomin;
-private JButton btnZoomout;
 private JPanel mapPane;
 private JButton btnPanUp;
 private JButton btnPanDown;
@@ -789,6 +784,7 @@ private JTextField city;
 private JTextField state;
 private String lat ="";
 private String lon ="";
+private String addressList = "";
 
 private JPanel dialogPane;
 private JPanel contentPanel;

@@ -86,8 +86,8 @@ public static String getMap(double lat, double lon, int sizeW, int sizeH, MapMar
   return _map.getURI(lat, lon, sizeW, sizeH, markers);
 }
 
-public static String getMap(String address, String city, String state){
-	return _map.getURI(address, city, state);
+public static String getMap(String address){
+	return _map.getURI(address);
 }
 public static String getMap(double lat, double lon, MapMarker... markers) {
   return getMap(lat, lon, SizeMax, SizeMax, markers);
@@ -232,11 +232,9 @@ public String getURI(String address, String city, String state, int sizeW, int s
 	}
 
 //XML URI Handle
-public String getURI(String address, String city, String state) {
+public String getURI(String address) {
 	  //_validateParams(sizeW, sizeH, zoom);
 	  
-	   city= city.replaceAll("\\s+", "+");
-	   state= state.replaceAll("\\s+", "+");
 	   address= address.replaceAll("\\s+", "+");
 	   
 	  // generate the URI
@@ -245,7 +243,7 @@ public String getURI(String address, String city, String state) {
 
 	  // Address Line
 	  sb. 
-	      append(address).append(",").append(city).append(",").append(state);
+	      append(address);
 
 	  // Sensor Line
 	  sb.
