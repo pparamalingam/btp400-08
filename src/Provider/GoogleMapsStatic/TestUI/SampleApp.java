@@ -12,7 +12,6 @@ import Task.Support.CoreSupport.*;
 import Task.Support.GUISupport.*;
 import com.jgoodies.forms.factories.*;
 
-
 import info.clearthought.layout.*;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.*;
@@ -110,14 +109,14 @@ private void _setupTask() {
       DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
       DocumentBuilder db = dbf.newDocumentBuilder();
       Document doc = db.parse(new URL(xml).openStream());
-      NodeList nodes = doc.getElementsByTagName("GeocodeResponse");
+      NodeList nodes = doc.getElementsByTagName("result");
 		for (int temp = 0; temp < nodes.getLength(); temp++) {
 			 
 			   Node nNode = nodes.item(temp);
 			   if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	 
 			      Element eElement = (Element) nNode;
-			      String check = getTagValue("status", eElement);
+			      String check = "OK";
 			      if ((address.getText().isEmpty()==false) && (check.equals("OK") && lat.equals("empty")==false)){
 			    	   lat = getTagValue("lat", eElement);
 			    	   lon = getTagValue("lng", eElement);
@@ -128,6 +127,7 @@ private void _setupTask() {
 			    	   lat = "empty";
 			    	   lon = "empty";
 			    	   address.setText("");
+			    	   
 			      }
 			       
 			   }
@@ -386,7 +386,6 @@ private void initComponents() {
   // Generated using JFormDesigner non-commercial license
   panel4 = new JPanel();
   mapPane = new JPanel();	
-  btnPanUp = new JButton();
   btnPanDown = new JButton();
   btnPanLeft = new JButton();
   btnPanRight = new JButton();
@@ -660,27 +659,6 @@ private void initComponents() {
   			});
   			panel4.add(btnZoomout, c);*/
   			
-  			btnPanUp.setSize(2,2);
-  			btnPanUp.setText("^");
-  			btnPanUp.setHorizontalAlignment(SwingConstants.LEFT);
-  			btnPanUp.setHorizontalTextPosition(SwingConstants.RIGHT);
-  			btnPanUp.setOpaque(true);
-  			btnPanUp.addActionListener(new ActionListener() {
-  				public void actionPerformed(ActionEvent e) {
-  	  				double x = Double.parseDouble(ttfLat.getText());
-  	  				
-  	  				x = x+ 131.072/java.lang.Math.pow (2,mapZoom+1);
-  	  				if (x > 85)
-  	  					x = x - 170;
-  	  				ttfLat.setText(Double.toString(x));
-  	  			  
-  	  			  
-  	  				startTaskAction();
-  	  				mapPane.repaint();
-  				}
-  			});
-  			panel4.add(btnPanUp, c);
-  			
   			btnPanDown.setSize(2,2);
   			btnPanDown.setText("v");
   			btnPanDown.setHorizontalAlignment(SwingConstants.LEFT);
@@ -700,7 +678,12 @@ private void initComponents() {
   	  				mapPane.repaint();
   				}
   			});
-  			panel4.add(btnPanDown, c);
+  			GridBagConstraints gbc_btnPanDown = new GridBagConstraints();
+  			gbc_btnPanDown.anchor = GridBagConstraints.WEST;
+  			gbc_btnPanDown.insets = new Insets(0, 0, 0, 5);
+  			gbc_btnPanDown.gridx = 1;
+  			gbc_btnPanDown.gridy = 0;
+  			panel4.add(btnPanDown, gbc_btnPanDown);
   			
   			btnPanLeft.setSize(2,2);
   			btnPanLeft.setText("<");
@@ -721,7 +704,37 @@ private void initComponents() {
   	  				mapPane.repaint();
   				}
   			});
-  			panel4.add(btnPanLeft, c);
+  			btnPanUp = new JButton();
+  			
+  			btnPanUp.setSize(2,2);
+  			btnPanUp.setText("^");
+  			btnPanUp.setHorizontalAlignment(SwingConstants.LEFT);
+  			btnPanUp.setHorizontalTextPosition(SwingConstants.RIGHT);
+  			btnPanUp.setOpaque(true);
+  			btnPanUp.addActionListener(new ActionListener() {
+  				public void actionPerformed(ActionEvent e) {
+  	  				double x = Double.parseDouble(ttfLat.getText());
+  	  				
+  	  				x = x+ 131.072/java.lang.Math.pow (2,mapZoom+1);
+  	  				if (x > 85)
+  	  					x = x - 170;
+  	  				ttfLat.setText(Double.toString(x));
+  	  			  
+  	  			  
+  	  				startTaskAction();
+  	  				mapPane.repaint();
+  				}
+  			});
+  			GridBagConstraints gbc_btnPanUp = new GridBagConstraints();
+  			gbc_btnPanUp.insets = new Insets(0, 0, 0, 5);
+  			gbc_btnPanUp.gridx = 2;
+  			gbc_btnPanUp.gridy = 0;
+  			panel4.add(btnPanUp, gbc_btnPanUp);
+  			GridBagConstraints gbc_btnPanLeft = new GridBagConstraints();
+  			gbc_btnPanLeft.insets = new Insets(0, 0, 0, 5);
+  			gbc_btnPanLeft.gridx = 3;
+  			gbc_btnPanLeft.gridy = 0;
+  			panel4.add(btnPanLeft, gbc_btnPanLeft);
   			
   			btnPanRight.setSize(2,2);
   			btnPanRight.setText(">");
@@ -742,7 +755,11 @@ private void initComponents() {
   	  				mapPane.repaint();
   				}
   			});
-  			panel4.add(btnPanRight, c);
+  			GridBagConstraints gbc_btnPanRight = new GridBagConstraints();
+  			gbc_btnPanRight.insets = new Insets(0, 0, 0, 5);
+  			gbc_btnPanRight.gridx = 4;
+  			gbc_btnPanRight.gridy = 0;
+  			panel4.add(btnPanRight, gbc_btnPanRight);
   			
   			sldZoom.setMajorTickSpacing(19);
   			sldZoom.setMinorTickSpacing(1);
@@ -759,7 +776,10 @@ private void initComponents() {
   					mapPane.repaint();
   				}
   			});
-  			panel4.add(sldZoom, c);
+  			GridBagConstraints gbc_sldZoom = new GridBagConstraints();
+  			gbc_sldZoom.gridx = 5;
+  			gbc_sldZoom.gridy = 0;
+  			panel4.add(sldZoom, gbc_sldZoom);
 	mapPane.add(panel4, BorderLayout.WEST);
   	
   }
