@@ -303,6 +303,7 @@ private void _displayImgInFrame() {
 	mapPane.add(panel4, BorderLayout.WEST);
 
   mapPane.add(imgLbl, BorderLayout.CENTER);
+  mapPane.add(sldZoom, BorderLayout.SOUTH);
   
 	
 }
@@ -386,10 +387,6 @@ private void initComponents() {
   // Generated using JFormDesigner non-commercial license
   panel4 = new JPanel();
   mapPane = new JPanel();	
-  btnPanDown = new JButton();
-  btnPanLeft = new JButton();
-  btnPanRight = new JButton();
-  sldZoom = new JSlider(JSlider.VERTICAL, 0, 19, 14);
   address = new JTextField();
   city = new JTextField();
   state = new JTextField();
@@ -658,52 +655,6 @@ private void initComponents() {
   				}
   			});
   			panel4.add(btnZoomout, c);*/
-  			
-  			btnPanDown.setSize(2,2);
-  			btnPanDown.setText("v");
-  			btnPanDown.setHorizontalAlignment(SwingConstants.LEFT);
-  			btnPanDown.setHorizontalTextPosition(SwingConstants.RIGHT);
-  			btnPanDown.setOpaque(true);
-  			btnPanDown.addActionListener(new ActionListener() {
-  				public void actionPerformed(ActionEvent e) {
-  	  				double x = Double.parseDouble(ttfLat.getText());
-  	  				
-  	  				x = x - 131.072/java.lang.Math.pow (2,mapZoom+1);
-  	  				if (x < -85)
-  	  					x = x + 170;
-  	  				ttfLat.setText(Double.toString(x));
-  	  			  
-  	  			  
-  	  				startTaskAction();
-  	  				mapPane.repaint();
-  				}
-  			});
-  			GridBagConstraints gbc_btnPanDown = new GridBagConstraints();
-  			gbc_btnPanDown.anchor = GridBagConstraints.WEST;
-  			gbc_btnPanDown.insets = new Insets(0, 0, 0, 5);
-  			gbc_btnPanDown.gridx = 1;
-  			gbc_btnPanDown.gridy = 0;
-  			panel4.add(btnPanDown, gbc_btnPanDown);
-  			
-  			btnPanLeft.setSize(2,2);
-  			btnPanLeft.setText("<");
-  			btnPanLeft.setHorizontalAlignment(SwingConstants.LEFT);
-  			btnPanLeft.setHorizontalTextPosition(SwingConstants.RIGHT);
-  			btnPanLeft.setOpaque(true);
-  			btnPanLeft.addActionListener(new ActionListener() {
-  				public void actionPerformed(ActionEvent e) {
-  	  				double x = Double.parseDouble(ttfLon.getText());
-  	  				
-  	  				x = x - 131.072/java.lang.Math.pow (2,mapZoom+1);
-  	  				if (x < -175)
-  	  					x = x + 350;
-  	  				ttfLon.setText(Double.toString(x));
-  	  			  
-  	  			  
-  	  				startTaskAction();
-  	  				mapPane.repaint();
-  				}
-  			});
   			btnPanUp = new JButton();
   			
   			btnPanUp.setSize(2,2);
@@ -726,15 +677,11 @@ private void initComponents() {
   				}
   			});
   			GridBagConstraints gbc_btnPanUp = new GridBagConstraints();
-  			gbc_btnPanUp.insets = new Insets(0, 0, 0, 5);
-  			gbc_btnPanUp.gridx = 2;
-  			gbc_btnPanUp.gridy = 0;
+  			gbc_btnPanUp.insets = new Insets(0, 0, 5, 5);
+  			gbc_btnPanUp.gridx = 3;
+  			gbc_btnPanUp.gridy = 1;
   			panel4.add(btnPanUp, gbc_btnPanUp);
-  			GridBagConstraints gbc_btnPanLeft = new GridBagConstraints();
-  			gbc_btnPanLeft.insets = new Insets(0, 0, 0, 5);
-  			gbc_btnPanLeft.gridx = 3;
-  			gbc_btnPanLeft.gridy = 0;
-  			panel4.add(btnPanLeft, gbc_btnPanLeft);
+  			btnPanRight = new JButton();
   			
   			btnPanRight.setSize(2,2);
   			btnPanRight.setText(">");
@@ -755,36 +702,86 @@ private void initComponents() {
   	  				mapPane.repaint();
   				}
   			});
-  			GridBagConstraints gbc_btnPanRight = new GridBagConstraints();
-  			gbc_btnPanRight.insets = new Insets(0, 0, 0, 5);
-  			gbc_btnPanRight.gridx = 4;
-  			gbc_btnPanRight.gridy = 0;
-  			panel4.add(btnPanRight, gbc_btnPanRight);
+  			btnPanLeft = new JButton();
   			
-  			sldZoom.setMajorTickSpacing(19);
-  			sldZoom.setMinorTickSpacing(1);
-  			sldZoom.setForeground(Color.black);
-  			sldZoom.setPaintTicks(true);
-  			sldZoom.setPaintLabels(true);
-  			sldZoom.setPaintTrack(true);
-  			sldZoom.setSnapToTicks(true);
-  			sldZoom.addChangeListener(new ChangeListener(){
-  				public void stateChanged(ChangeEvent e) {
-  					JSlider source = (JSlider)e.getSource();
-  					mapZoom = (int)source.getValue();
-  					startTaskAction();
-  					mapPane.repaint();
+  			btnPanLeft.setSize(2,2);
+  			btnPanLeft.setText("<");
+  			btnPanLeft.setHorizontalAlignment(SwingConstants.LEFT);
+  			btnPanLeft.setHorizontalTextPosition(SwingConstants.RIGHT);
+  			btnPanLeft.setOpaque(true);
+  			btnPanLeft.addActionListener(new ActionListener() {
+  				public void actionPerformed(ActionEvent e) {
+  	  				double x = Double.parseDouble(ttfLon.getText());
+  	  				
+  	  				x = x - 131.072/java.lang.Math.pow (2,mapZoom+1);
+  	  				if (x < -175)
+  	  					x = x + 350;
+  	  				ttfLon.setText(Double.toString(x));
+  	  			  
+  	  			  
+  	  				startTaskAction();
+  	  				mapPane.repaint();
   				}
   			});
-  			GridBagConstraints gbc_sldZoom = new GridBagConstraints();
-  			gbc_sldZoom.gridx = 5;
-  			gbc_sldZoom.gridy = 0;
-  			panel4.add(sldZoom, gbc_sldZoom);
+  			GridBagConstraints gbc_btnPanLeft = new GridBagConstraints();
+  			gbc_btnPanLeft.insets = new Insets(0, 0, 5, 5);
+  			gbc_btnPanLeft.gridx = 2;
+  			gbc_btnPanLeft.gridy = 2;
+  			panel4.add(btnPanLeft, gbc_btnPanLeft);
+  			GridBagConstraints gbc_btnPanRight = new GridBagConstraints();
+  			gbc_btnPanRight.insets = new Insets(0, 0, 5, 0);
+  			gbc_btnPanRight.gridx = 4;
+  			gbc_btnPanRight.gridy = 2;
+  			panel4.add(btnPanRight, gbc_btnPanRight);
+  			btnPanDown = new JButton();
+  			
+  			btnPanDown.setSize(2,2);
+  			btnPanDown.setText("v");
+  			btnPanDown.setHorizontalAlignment(SwingConstants.LEFT);
+  			btnPanDown.setHorizontalTextPosition(SwingConstants.RIGHT);
+  			btnPanDown.setOpaque(true);
+  			btnPanDown.addActionListener(new ActionListener() {
+  				public void actionPerformed(ActionEvent e) {
+  				  				double x = Double.parseDouble(ttfLat.getText());
+  				  				
+  				  				x = x - 131.072/java.lang.Math.pow (2,mapZoom+1);
+  				  				if (x < -85)
+  				  					x = x + 170;
+  				  				ttfLat.setText(Double.toString(x));
+  				  			  
+  				  			  
+  				  				startTaskAction();
+  				  				mapPane.repaint();
+  				}
+  			});
+  			GridBagConstraints gbc_btnPanDown = new GridBagConstraints();
+  			gbc_btnPanDown.insets = new Insets(0, 0, 5, 5);
+  			gbc_btnPanDown.gridx = 3;
+  			gbc_btnPanDown.gridy = 3;
+  			panel4.add(btnPanDown, gbc_btnPanDown);
 	mapPane.add(panel4, BorderLayout.WEST);
   	
   }
   contentPane.add(dialogPane, BorderLayout.WEST);
   contentPane.add(mapPane, BorderLayout.EAST);
+  sldZoom = new JSlider(SwingConstants.HORIZONTAL, 0, 19, 14);
+  mapPane.add(sldZoom, BorderLayout.SOUTH);
+  
+  sldZoom.setMajorTickSpacing(19);
+  sldZoom.setMinorTickSpacing(1);
+  sldZoom.setForeground(Color.black);
+  sldZoom.setPaintTicks(true);
+  sldZoom.setPaintLabels(true);
+  sldZoom.setPaintTrack(true);
+  sldZoom.setSnapToTicks(true);
+  sldZoom.addChangeListener(new ChangeListener(){
+  	public void stateChanged(ChangeEvent e) {
+  		JSlider source = (JSlider)e.getSource();
+  		mapZoom = (int)source.getValue();
+  		startTaskAction();
+  		mapPane.repaint();
+  	}
+  });
   setSize(1600, 485);
   setLocationRelativeTo(null);
   // JFormDesigner - End of component initialization  //GEN-END:initComponents
