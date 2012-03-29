@@ -27,6 +27,7 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.beans.*;
 import java.text.*;
+import java.util.ArrayList;
 import java.util.concurrent.*;
 
 
@@ -101,7 +102,7 @@ private void _setupTask() {
       _initHook(hook);
 
       // set the license key
-      MapLookup.setLicenseKey(ttfLicense.getText());
+     
       
       String xml = MapLookup.getMap(address.getText());
       
@@ -110,31 +111,52 @@ private void _setupTask() {
       DocumentBuilder db = dbf.newDocumentBuilder();
       Document doc = db.parse(new URL(xml).openStream());
       NodeList nodes = doc.getElementsByTagName("result");
+      xmlLat = new ArrayList(nodes.getLength());
+      xmlLon = new ArrayList(nodes.getLength());
+      System.out.println(xmlLat);
 		for (int temp = 0; temp < nodes.getLength(); temp++) {
 			 
 			   Node nNode = nodes.item(temp);
 			   if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	 
+				   
 			      Element eElement = (Element) nNode;
+			      closeMatch.addItem(getTagValue("formatted_address", eElement));
+			      xmlLat.add(getTagValue("lat", eElement));
+			      xmlLon.add(getTagValue("lng", eElement));
+			      System.out.println(xmlLat);
+			    //  lat = xmlLat.get(matchIndex).toString();
+		    	//  lon = xmlLon.get(matchIndex).toString();
+		    	//  ttfLat.setText(lat);
+		    	//   ttfLon.setText(lon);
 			      String check = "OK";
-			      if ((address.getText().isEmpty()==false) && (check.equals("OK") && lat.equals("empty")==false)){
-			    	   lat = getTagValue("lat", eElement);
-			    	   lon = getTagValue("lng", eElement);
-			    	   int w = nodes.getLength();
-			    	   city.setText(Integer.toString(w));
+			      
+			      System.out.println(closeMatch.getSelectedIndex());
+			      
+			      /*if ((address.getText().isEmpty()==false) && (check.equals("OK") && lat.equals("empty")==false)){
+			    	  
+			    	  
+			    	   
+			    	  // city.setText(Integer.toString(w));
 			    	   ttfLat.setText(lat);
 			    	   ttfLon.setText(lon);
 			    	   lat = "empty";
 			    	   lon = "empty";
 			    	   address.setText("");
 			    	   
-			      }
+			      }*/
 			       
 			   }
 			}
       
       // get the uri for the static map
 		//city.setText(addressList);
+	 double temp = Double.parseDouble(xmlLat.get(0).toString());
+	 System.out.println("WTF" + temp);
+	
+	  
+	 ttfLat.setText(xmlLat.get(matchIndex).toString());
+	 ttfLon.setText(xmlLon.get(matchIndex).toString());
+
       double x = Double.parseDouble(ttfLat.getText()) + 3;
       double y = Double.parseDouble(ttfLon.getText()) - 3;
       String uri = MapLookup.getMap( /*"1600 Amphitheatre Pky",
@@ -387,26 +409,10 @@ private void initComponents() {
   // Generated using JFormDesigner non-commercial license
   panel4 = new JPanel();
   mapPane = new JPanel();	
-  address = new JTextField();
-  city = new JTextField();
   state = new JTextField();
   
   dialogPane = new JPanel();
   contentPanel = new JPanel();
-  panel1 = new JPanel();
-  label2 = new JLabel();
-  ttfSizeW = new JTextField();
-  label4 = new JLabel();
-  ttfLat = new JTextField();
-  btnGetMap = new JButton();
-  label3 = new JLabel();
-  ttfSizeH = new JTextField();
-  label5 = new JLabel();
-  ttfLon = new JTextField();
-  btnQuit = new JButton();
-  label1 = new JLabel();
-  ttfLicense = new JTextField();
-  label6 = new JLabel();
   ttfZoom = new JTextField();
   scrollPane1 = new JScrollPane();
   ttaStatus = new JTextArea();
@@ -443,98 +449,13 @@ private void initComponents() {
 
   		//======== panel1 ========
   		{
-  			panel1.setOpaque(false);
-  			panel1.setBorder(new CompoundBorder(
-  				new TitledBorder("Configure the inputs to Google Static Maps"),
-  				Borders.DLU2_BORDER));
-  			panel1.setLayout(new TableLayout(new double[][] {
-  				{0.17, 0.17, 0.17, 0.17, 0.05, TableLayout.FILL},
-  				{TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED}}));
-  			((TableLayout)panel1.getLayout()).setHGap(5);
-  			((TableLayout)panel1.getLayout()).setVGap(5);
-
-  			//---- label2 ----
-  			label2.setText("Size Width");
-  			label2.setHorizontalAlignment(SwingConstants.RIGHT);
-  			panel1.add(label2, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-  			//---- ttfSizeW ----
-  			ttfSizeW.setText("512");
-  			panel1.add(ttfSizeW, new TableLayoutConstraints(1, 0, 1, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-  			//---- label4 ----
-  			label4.setText("Latitude");
-  			label4.setHorizontalAlignment(SwingConstants.RIGHT);
-  			panel1.add(label4, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-  			//---- ttfLat ----
-  			//ttfLat.setText("38.931099");
-  			panel1.add(ttfLat, new TableLayoutConstraints(3, 0, 3, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-  			//---- btnGetMap ----
-  			btnGetMap.setText("Get Map");
-  			btnGetMap.setHorizontalAlignment(SwingConstants.CENTER);
-  			btnGetMap.setMnemonic('G');
-  			btnGetMap.addActionListener(new ActionListener() {
-  				public void actionPerformed(ActionEvent e) {
-  					startTaskAction();
-  				}
-  			});
-  			panel1.add(btnGetMap, new TableLayoutConstraints(5, 0, 5, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-  			//---- label3 ----
-  			label3.setText("Size Height");
-  			label3.setHorizontalAlignment(SwingConstants.RIGHT);
-  			panel1.add(label3, new TableLayoutConstraints(0, 1, 0, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-  			//---- ttfSizeH ----
-  			ttfSizeH.setText("512");
-  			panel1.add(ttfSizeH, new TableLayoutConstraints(1, 1, 1, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-  			//---- label5 ----
-  			label5.setText("Longitude");
-  			label5.setHorizontalAlignment(SwingConstants.RIGHT);
-  			panel1.add(label5, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-  			//---- ttfLon ----
-  			//ttfLon.setText("-77.3489");
-  			panel1.add(ttfLon, new TableLayoutConstraints(3, 1, 3, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-  			//---- btnQuit ----
-  			btnQuit.setText("Quit");
-  			btnQuit.setMnemonic('Q');
-  			btnQuit.setHorizontalAlignment(SwingConstants.LEFT);
-  			btnQuit.setHorizontalTextPosition(SwingConstants.RIGHT);
-  			btnQuit.addActionListener(new ActionListener() {
-  				public void actionPerformed(ActionEvent e) {
-  					quitProgram();
-  				}
-  			});
-  			panel1.add(btnQuit, new TableLayoutConstraints(5, 1, 5, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-  			//---- label1 ----
-  			label1.setText("License Key");
-  			label1.setHorizontalAlignment(SwingConstants.RIGHT);
-  			panel1.add(label1, new TableLayoutConstraints(0, 2, 0, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-  			//---- ttfLicense ----
-  			ttfLicense.setToolTipText("Enter your own URI for a file to download in the background");
-  			panel1.add(ttfLicense, new TableLayoutConstraints(1, 2, 1, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
-  			//---- label6 ----
-  			label6.setText("Address");
-  			label6.setHorizontalAlignment(SwingConstants.RIGHT);
-  			panel1.add(label6, new TableLayoutConstraints(2, 2, 2, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- ttfZoom ----
   			mapZoom = 14;
   			ttfZoom.setText("14");
-  			panel1.add(address, new TableLayoutConstraints(3, 2, 3, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-  			panel1.add(city, new TableLayoutConstraints(5, 2, 5, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
   			
   			
   		}
-  		contentPanel.add(panel1, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   		//======== scrollPane1 ========
   		{
@@ -763,6 +684,184 @@ private void initComponents() {
   	
   }
   contentPane.add(dialogPane, BorderLayout.WEST);
+  panel1 = new JPanel();
+  dialogPane.add(panel1, BorderLayout.NORTH);
+  panel1.setOpaque(false);
+  panel1.setBorder(new CompoundBorder(
+  	new TitledBorder("Configure the inputs to Google Static Maps"),
+  	Borders.DLU2_BORDER));
+  GridBagLayout gbl_panel1 = new GridBagLayout();
+  gbl_panel1.columnWidths = new int[]{123, 123, 123, 123, 46, 197, 0};
+  gbl_panel1.rowHeights = new int[]{23, 23, 20, 0};
+  gbl_panel1.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+  gbl_panel1.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+  panel1.setLayout(gbl_panel1);
+  label2 = new JLabel();
+  
+    			//---- label2 ----
+    			label2.setText("Size Width");
+    			label2.setHorizontalAlignment(SwingConstants.RIGHT);
+    			GridBagConstraints gbc_label2 = new GridBagConstraints();
+    			gbc_label2.fill = GridBagConstraints.BOTH;
+    			gbc_label2.insets = new Insets(0, 0, 5, 5);
+    			gbc_label2.gridx = 0;
+    			gbc_label2.gridy = 0;
+    			panel1.add(label2, gbc_label2);
+    			ttfSizeW = new JTextField();
+    			
+    			  			//---- ttfSizeW ----
+    			  			ttfSizeW.setText("512");
+    			  			GridBagConstraints gbc_ttfSizeW = new GridBagConstraints();
+    			  			gbc_ttfSizeW.fill = GridBagConstraints.BOTH;
+    			  			gbc_ttfSizeW.insets = new Insets(0, 0, 5, 5);
+    			  			gbc_ttfSizeW.gridx = 1;
+    			  			gbc_ttfSizeW.gridy = 0;
+    			  			panel1.add(ttfSizeW, gbc_ttfSizeW);
+    			  			label4 = new JLabel();
+    			  			
+    			  			  			//---- label4 ----
+    			  			  			label4.setText("Latitude");
+    			  			  			label4.setHorizontalAlignment(SwingConstants.RIGHT);
+    			  			  			GridBagConstraints gbc_label4 = new GridBagConstraints();
+    			  			  			gbc_label4.fill = GridBagConstraints.BOTH;
+    			  			  			gbc_label4.insets = new Insets(0, 0, 5, 5);
+    			  			  			gbc_label4.gridx = 2;
+    			  			  			gbc_label4.gridy = 0;
+    			  			  			panel1.add(label4, gbc_label4);
+    			  			  			ttfLat = new JTextField();
+    			  			  			
+    			  			  			  			//---- ttfLat ----
+    			  			  			  			//ttfLat.setText("38.931099");
+    			  			  			  			GridBagConstraints gbc_ttfLat = new GridBagConstraints();
+    			  			  			  			gbc_ttfLat.fill = GridBagConstraints.BOTH;
+    			  			  			  			gbc_ttfLat.insets = new Insets(0, 0, 5, 5);
+    			  			  			  			gbc_ttfLat.gridx = 3;
+    			  			  			  			gbc_ttfLat.gridy = 0;
+    			  			  			  			panel1.add(ttfLat, gbc_ttfLat);
+    			  			  			  			btnGetMap = new JButton();
+    			  			  			  			
+    			  			  			  			  			//---- btnGetMap ----
+    			  			  			  			  			btnGetMap.setText("Get Map");
+    			  			  			  			  			btnGetMap.setHorizontalAlignment(SwingConstants.CENTER);
+    			  			  			  			  			btnGetMap.setMnemonic('G');
+    			  			  			  			  			btnGetMap.addActionListener(new ActionListener() {
+    			  			  			  			  				public void actionPerformed(ActionEvent e) {
+    			  			  			  			  					closeMatch.removeAllItems();
+    			  			  			  			  					startTaskAction();
+    			  			  			  			  				}
+    			  			  			  			  			});
+    			  			  			  			  			GridBagConstraints gbc_btnGetMap = new GridBagConstraints();
+    			  			  			  			  			gbc_btnGetMap.anchor = GridBagConstraints.NORTH;
+    			  			  			  			  			gbc_btnGetMap.fill = GridBagConstraints.HORIZONTAL;
+    			  			  			  			  			gbc_btnGetMap.insets = new Insets(0, 0, 5, 0);
+    			  			  			  			  			gbc_btnGetMap.gridx = 5;
+    			  			  			  			  			gbc_btnGetMap.gridy = 0;
+    			  			  			  			  			panel1.add(btnGetMap, gbc_btnGetMap);
+    			  			  			  			  			label3 = new JLabel();
+    			  			  			  			  			
+    			  			  			  			  			  			//---- label3 ----
+    			  			  			  			  			  			label3.setText("Size Height");
+    			  			  			  			  			  			label3.setHorizontalAlignment(SwingConstants.RIGHT);
+    			  			  			  			  			  			GridBagConstraints gbc_label3 = new GridBagConstraints();
+    			  			  			  			  			  			gbc_label3.fill = GridBagConstraints.BOTH;
+    			  			  			  			  			  			gbc_label3.insets = new Insets(0, 0, 5, 5);
+    			  			  			  			  			  			gbc_label3.gridx = 0;
+    			  			  			  			  			  			gbc_label3.gridy = 1;
+    			  			  			  			  			  			panel1.add(label3, gbc_label3);
+    			  			  			  			  			  			ttfSizeH = new JTextField();
+    			  			  			  			  			  			
+    			  			  			  			  			  			  			//---- ttfSizeH ----
+    			  			  			  			  			  			  			ttfSizeH.setText("512");
+    			  			  			  			  			  			  			GridBagConstraints gbc_ttfSizeH = new GridBagConstraints();
+    			  			  			  			  			  			  			gbc_ttfSizeH.fill = GridBagConstraints.BOTH;
+    			  			  			  			  			  			  			gbc_ttfSizeH.insets = new Insets(0, 0, 5, 5);
+    			  			  			  			  			  			  			gbc_ttfSizeH.gridx = 1;
+    			  			  			  			  			  			  			gbc_ttfSizeH.gridy = 1;
+    			  			  			  			  			  			  			panel1.add(ttfSizeH, gbc_ttfSizeH);
+    			  			  			  			  			  			  			label5 = new JLabel();
+    			  			  			  			  			  			  			
+    			  			  			  			  			  			  			  			//---- label5 ----
+    			  			  			  			  			  			  			  			label5.setText("Longitude");
+    			  			  			  			  			  			  			  			label5.setHorizontalAlignment(SwingConstants.RIGHT);
+    			  			  			  			  			  			  			  			GridBagConstraints gbc_label5 = new GridBagConstraints();
+    			  			  			  			  			  			  			  			gbc_label5.fill = GridBagConstraints.BOTH;
+    			  			  			  			  			  			  			  			gbc_label5.insets = new Insets(0, 0, 5, 5);
+    			  			  			  			  			  			  			  			gbc_label5.gridx = 2;
+    			  			  			  			  			  			  			  			gbc_label5.gridy = 1;
+    			  			  			  			  			  			  			  			panel1.add(label5, gbc_label5);
+    			  			  			  			  			  			  			  			ttfLon = new JTextField();
+    			  			  			  			  			  			  			  			
+    			  			  			  			  			  			  			  			  			//---- ttfLon ----
+    			  			  			  			  			  			  			  			  			//ttfLon.setText("-77.3489");
+    			  			  			  			  			  			  			  			  			GridBagConstraints gbc_ttfLon = new GridBagConstraints();
+    			  			  			  			  			  			  			  			  			gbc_ttfLon.fill = GridBagConstraints.BOTH;
+    			  			  			  			  			  			  			  			  			gbc_ttfLon.insets = new Insets(0, 0, 5, 5);
+    			  			  			  			  			  			  			  			  			gbc_ttfLon.gridx = 3;
+    			  			  			  			  			  			  			  			  			gbc_ttfLon.gridy = 1;
+    			  			  			  			  			  			  			  			  			panel1.add(ttfLon, gbc_ttfLon);
+    			  			  			  			  			  			  			  			  			btnQuit = new JButton();
+    			  			  			  			  			  			  			  			  			
+    			  			  			  			  			  			  			  			  			  			//---- btnQuit ----
+    			  			  			  			  			  			  			  			  			  			btnQuit.setText("Quit");
+    			  			  			  			  			  			  			  			  			  			btnQuit.setMnemonic('Q');
+    			  			  			  			  			  			  			  			  			  			btnQuit.setHorizontalAlignment(SwingConstants.LEFT);
+    			  			  			  			  			  			  			  			  			  			btnQuit.setHorizontalTextPosition(SwingConstants.RIGHT);
+    			  			  			  			  			  			  			  			  			  			btnQuit.addActionListener(new ActionListener() {
+    			  			  			  			  			  			  			  			  			  				public void actionPerformed(ActionEvent e) {
+    			  			  			  			  			  			  			  			  			  					quitProgram();
+    			  			  			  			  			  			  			  			  			  				}
+    			  			  			  			  			  			  			  			  			  			});
+    			  			  			  			  			  			  			  			  			  			GridBagConstraints gbc_btnQuit = new GridBagConstraints();
+    			  			  			  			  			  			  			  			  			  			gbc_btnQuit.anchor = GridBagConstraints.NORTH;
+    			  			  			  			  			  			  			  			  			  			gbc_btnQuit.fill = GridBagConstraints.HORIZONTAL;
+    			  			  			  			  			  			  			  			  			  			gbc_btnQuit.insets = new Insets(0, 0, 5, 0);
+    			  			  			  			  			  			  			  			  			  			gbc_btnQuit.gridx = 5;
+    			  			  			  			  			  			  			  			  			  			gbc_btnQuit.gridy = 1;
+    			  			  			  			  			  			  			  			  			  			panel1.add(btnQuit, gbc_btnQuit);
+    			  			  			  			  			  			  			  			  			  			label6 = new JLabel();
+    			  			  			  			  			  			  			  			  			  			
+    			  			  			  			  			  			  			  			  			  			  			//---- label6 ----
+    			  			  			  			  			  			  			  			  			  			  			label6.setText("Search Address");
+    			  			  			  			  			  			  			  			  			  			  			label6.setHorizontalAlignment(SwingConstants.RIGHT);
+    			  			  			  			  			  			  			  			  			  			  			GridBagConstraints gbc_label6 = new GridBagConstraints();
+    			  			  			  			  			  			  			  			  			  			  			gbc_label6.fill = GridBagConstraints.BOTH;
+    			  			  			  			  			  			  			  			  			  			  			gbc_label6.insets = new Insets(0, 0, 0, 5);
+    			  			  			  			  			  			  			  			  			  			  			gbc_label6.gridx = 0;
+    			  			  			  			  			  			  			  			  			  			  			gbc_label6.gridy = 2;
+    			  			  			  			  			  			  			  			  			  			  			panel1.add(label6, gbc_label6);
+    			  			  			  			  			  			  			  			  			  			  			address = new JTextField();
+    			  			  			  			  			  			  			  			  			  			  			GridBagConstraints gbc_address = new GridBagConstraints();
+    			  			  			  			  			  			  			  			  			  			  			gbc_address.anchor = GridBagConstraints.NORTH;
+    			  			  			  			  			  			  			  			  			  			  			gbc_address.fill = GridBagConstraints.HORIZONTAL;
+    			  			  			  			  			  			  			  			  			  			  			gbc_address.insets = new Insets(0, 0, 0, 5);
+    			  			  			  			  			  			  			  			  			  			  			gbc_address.gridx = 1;
+    			  			  			  			  			  			  			  			  			  			  			gbc_address.gridy = 2;
+    			  			  			  			  			  			  			  			  			  			  			panel1.add(address, gbc_address);
+    			  			  			  			  			  			  			  			  			  			  			
+    			  			  			  			  			  			  			  			  			  			  			lblClosestMatch = new JLabel("Closest Match");
+    			  			  			  			  			  			  			  			  			  			  			GridBagConstraints gbc_lblClosestMatch = new GridBagConstraints();
+    			  			  			  			  			  			  			  			  			  			  			gbc_lblClosestMatch.insets = new Insets(0, 0, 0, 5);
+    			  			  			  			  			  			  			  			  			  			  			gbc_lblClosestMatch.anchor = GridBagConstraints.EAST;
+    			  			  			  			  			  			  			  			  			  			  			gbc_lblClosestMatch.gridx = 2;
+    			  			  			  			  			  			  			  			  			  			  			gbc_lblClosestMatch.gridy = 2;
+    			  			  			  			  			  			  			  			  			  			  			panel1.add(lblClosestMatch, gbc_lblClosestMatch);
+    			  			  			  			  			  			  			  			  			  			  				
+    			  			  			  			  			  			  			  			  			  			  				closeMatch = new JComboBox();
+    			  			  			  			  			  			  			  			  			  			  				closeMatch.addActionListener(new ActionListener() {
+    			  			  			  			  			  			  			  			  			  			  					public void actionPerformed(ActionEvent e) {
+    			  			  			  			  			  			  			  			  			  			  						matchIndex = closeMatch.getSelectedIndex();
+    			  			  			  			  			  			  			  			  			  			  						startTaskAction();
+    			  			  			  			  			  			  			  			  			  			  					}
+    			  			  			  			  			  			  			  			  			  			  				});
+    			  			  			  			  			  			  			  			  			  			  			
+    			  			  			  			  			  			  			  			  			  			  				
+    			  			  			  			  			  			  			  			  			  			  				
+    			  			  			  			  			  			  			  			  			  			  					GridBagConstraints gbc_closeMatch = new GridBagConstraints();
+    			  			  			  			  			  			  			  			  			  			  					gbc_closeMatch.gridwidth = 2;
+    			  			  			  			  			  			  			  			  			  			  					gbc_closeMatch.fill = GridBagConstraints.HORIZONTAL;
+    			  			  			  			  			  			  			  			  			  			  					gbc_closeMatch.gridx = 3;
+    			  			  			  			  			  			  			  			  			  			  					gbc_closeMatch.gridy = 2;
+    			  			  			  			  			  			  			  			  			  			  					panel1.add(closeMatch, gbc_closeMatch);
   contentPane.add(mapPane, BorderLayout.EAST);
   sldZoom = new JSlider(SwingConstants.HORIZONTAL, 0, 19, 14);
   mapPane.add(sldZoom, BorderLayout.SOUTH);
@@ -797,11 +896,13 @@ private JButton btnPanLeft;
 private JButton btnPanRight;
 private JSlider sldZoom;
 private JTextField address;
-private JTextField city;
 private JTextField state;
 private String lat ="";
 private String lon ="";
-private String addressList = "";
+private ArrayList xmlLat;
+private ArrayList xmlLon;
+private int matchIndex;
+
 
 private JPanel dialogPane;
 private JPanel contentPanel;
@@ -816,8 +917,6 @@ private JTextField ttfSizeH;
 private JLabel label5;
 private JTextField ttfLon;
 private JButton btnQuit;
-private JLabel label1;
-private JTextField ttfLicense;
 private JLabel label6;
 private JTextField ttfZoom;
 private JScrollPane scrollPane1;
@@ -830,5 +929,7 @@ private JTextField ttfProgressMsg;
 private JProgressBar progressBar;
 private JLabel lblProgressStatus;
 private int mapZoom;
+private JComboBox closeMatch;
+private JLabel lblClosestMatch;
 // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
