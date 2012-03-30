@@ -104,6 +104,8 @@ private void doInit() {
     btnGetMap.setIcon(ImageUtils.loadScaledBufferedIcon("ok1.png", W, H, blur, alpha));
     btnQuit.setIcon(ImageUtils.loadScaledBufferedIcon("charging.png", W, H, blur, alpha));
     address.setText("70 Pond Rd Toronto Ontario");
+    A = new MapMarker(90, 180);
+	B = new MapMarker(90, 180);
     
     
   }
@@ -751,8 +753,7 @@ private void initComponents() {
     			  			  			  			  			btnGetMap.setMnemonic('G');
     			  			  			  			  			btnGetMap.addActionListener(new ActionListener() {
     			  			  			  			  				public void actionPerformed(ActionEvent e) {
-    			  			  			  			  					A = new MapMarker(90, 180);
-    			  			  			  			  					B = new MapMarker(90, 180);
+    			  			  			  			  					
     			  			  			  			  					closeMatch.removeAllItems();
     			  			  			  			  					entry = true;	
     			  			  			  			  					address.setCaretPosition(0);
