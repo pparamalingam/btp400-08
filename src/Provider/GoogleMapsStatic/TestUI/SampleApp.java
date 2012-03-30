@@ -80,16 +80,15 @@ private void doInit() {
     btnGetMap.setIcon(ImageUtils.loadScaledBufferedIcon("ok1.png", W, H, blur, alpha));
     btnQuit.setIcon(ImageUtils.loadScaledBufferedIcon("charging.png", W, H, blur, alpha));
     address.setText("70 Pond Rd Toronto Ontario");
-    address.setCaretPosition(0);
+    
     
   }
   catch (Exception e) {
     System.out.println(e);
   }
-
+  
   _setupTask();
   btnGetMap.doClick();
-  address.selectAll();
   
 }
 
@@ -757,7 +756,7 @@ private void initComponents() {
     			  			  			ttfLat.setEditable(false);
     			  			  			
     			  			  			  			//---- ttfLat ----
-    			  			  			  			//ttfLat.setText("38.931099");
+    			  			  			  			
     			  			  			  			GridBagConstraints gbc_ttfLat = new GridBagConstraints();
     			  			  			  			gbc_ttfLat.fill = GridBagConstraints.BOTH;
     			  			  			  			gbc_ttfLat.insets = new Insets(0, 0, 5, 5);
@@ -776,7 +775,9 @@ private void initComponents() {
     			  			  			  			  					B = new MapMarker(90, 180);
     			  			  			  			  					closeMatch.removeAllItems();
     			  			  			  			  					entry = true;	
+    			  			  			  			  					address.setCaretPosition(0);
     			  			  			  			  					startTaskAction();
+    			  			  			  			  					
     			  			  			  			  				}
     			  			  			  			  			});
     			  			  			  			  			GridBagConstraints gbc_btnGetMap = new GridBagConstraints();
@@ -860,6 +861,12 @@ private void initComponents() {
     			  			  			  			  			  			  			  			  			  			  			gbc_label6.gridy = 2;
     			  			  			  			  			  			  			  			  			  			  			panel1.add(label6, gbc_label6);
     			  			  			  			  			  			  			  			  			  			  			address = new JTextField();
+    			  			  			  			  			  			  			  			  			  			  			address.addFocusListener(new FocusAdapter() {
+    			  			  			  			  			  			  			  			  			  			  				@Override
+    			  			  			  			  			  			  			  			  			  			  				public void focusGained(FocusEvent e) {
+    			  			  			  			  			  			  			  			  			  			  					address.selectAll();
+    			  			  			  			  			  			  			  			  			  			  				}
+    			  			  			  			  			  			  			  			  			  			  			});
     			  			  			  			  			  			  			  			  			  			  			GridBagConstraints gbc_address = new GridBagConstraints();
     			  			  			  			  			  			  			  			  			  			  			gbc_address.anchor = GridBagConstraints.NORTH;
     			  			  			  			  			  			  			  			  			  			  			gbc_address.fill = GridBagConstraints.HORIZONTAL;
