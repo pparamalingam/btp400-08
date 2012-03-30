@@ -47,7 +47,22 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 
-/** @author nazmul idris */
+
+
+
+
+/**
+ * @author Preshoth
+ * 
+ */
+/**
+ * @author Preshoth
+ *
+ */
+/**
+ * @author Preshoth
+ *
+ */
 public class SampleApp extends JFrame {
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // data members
@@ -71,6 +86,11 @@ public static void main(String[] args) {
 // constructor
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Added a default start up
+ * Uses Seneca address: 70 Pond Rd Toronto Ontario
+ * @author Preshoth 
+ */
 private void doInit() {
   GUIUtils.setAppIcon(this, "burn.png");
   GUIUtils.centerOnScreen(this);
@@ -97,6 +117,13 @@ private void doInit() {
 }
 
 /** create a test task and wire it up with a task handler that dumps output to the textarea */
+
+/**
+ * @author Preshoth
+ * @Description 
+ * XML and HTTP, converts string address input into latitude and longitude in order to display correctly and add markers
+ * Uses XML to pull encoded path data in order to draw directions accurately
+ */
 @SuppressWarnings("unchecked")
 
 
@@ -272,6 +299,14 @@ private static String getTagValue(String sTag, Element eElement) {
 	return nValue.getNodeValue();
 }
 
+/**
+ * Grabs the XML from Google Direction Service in order to pull encoded paths
+ * @return encoded path
+ * @throws ParserConfigurationException
+ * @throws MalformedURLException
+ * @throws SAXException
+ * @throws IOException
+ */
 private static String getEncodedPath() throws ParserConfigurationException, MalformedURLException, SAXException, IOException{
 	
 	
@@ -298,12 +333,11 @@ private static String getEncodedPath() throws ParserConfigurationException, Malf
 	return path;
 }
 
+/**
+ *@author Preshoth 
+ * @Description map image to a new panel, this allows for key listener to interact with panel and allows panning by arrow keys
+ */
 private void _displayImgInFrame() {
-/*
-  final JFrame frame = new JFrame("Google Static Map");
-  GUIUtils.setAppIcon(frame, "71.png");
-  frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-*/
   JLabel imgLbl = new JLabel(new ImageIcon(_img));
   imgLbl.setToolTipText(MessageFormat.format("<html>Image downloaded from URI<br>size: w={0}, h={1}</html>",
                                              _img.getWidth(), _img.getHeight()));

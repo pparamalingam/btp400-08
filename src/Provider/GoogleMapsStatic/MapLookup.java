@@ -16,6 +16,18 @@ import java.net.URLEncoder;
  * @version 1.0
  * @since Apr 16, 2008, 10:55:50 PM
  */
+/**
+ * @author Preshoth
+ * @version 2.0
+ * @since March 15 2012
+ */
+
+/**
+ * @author Preshoth
+ * @description
+ * Added XML uris to parse data for paths and latitude/longitude
+ */
+
 public class MapLookup {
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -76,10 +88,33 @@ public static String getMap(double lat, double lon, int sizeW, int sizeH, int zo
   return _map.getURI(lat, lon, sizeW, sizeH, zoom);
 }
 
+/**
+ * New method that allows for paths and marker to interact with each other by getting XML data from SampleApp.java
+ * @param lat
+ * @param lon
+ * @param sizeW
+ * @param sizeH
+ * @param zoom
+ * @param path
+ * @param markers
+ * @return mapURi
+ * @throws UnsupportedEncodingException
+ */
 public static String getMap(double lat, double lon, int sizeW, int sizeH, int zoom, String path, MapMarker... markers) throws UnsupportedEncodingException {
 	  return _map.getURI(lat, lon, sizeW, sizeH, zoom, path, markers);
 	}
 
+/**
+ * New Method that allows for map to be generated from address string instead of lat/lon values
+ * @param address
+ * @param city
+ * @param state
+ * @param sizeW
+ * @param sizeH
+ * @param zoom
+ * @param markers
+ * @return mapURI
+ */
 public static String getMap(String address, String city, String state, int sizeW, int sizeH, int zoom, MapMarker... markers) {
 	  return _map.getURI(address, city,state, sizeW, sizeH, zoom, markers);
 	}
@@ -91,10 +126,25 @@ public static String getMap(double lat, double lon, int sizeW, int sizeH, MapMar
 public static String getMap(String address){
 	return _map.getURI(address);
 }
+/**
+ * XML uri for Google Direction API, used to parse for encoded path
+ * @param latA
+ * @param lonA
+ * @param latB
+ * @param lonB
+ * @return
+ */
 public static String getMap(double latA, double lonA, double latB, double lonB){
 	return _map.getURI(latA,lonA,  latB,  lonB);
 }
 
+/**
+ * XML uri for Google Geocode API, used to parse for lon/lat value of closest match
+ * @param lat
+ * @param lon
+ * @param markers
+ * @return
+ */
 public static String getMap(double lat, double lon, MapMarker... markers) {
   return getMap(lat, lon, SizeMax, SizeMax, markers);
 }
