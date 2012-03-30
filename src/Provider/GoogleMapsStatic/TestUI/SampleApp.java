@@ -105,7 +105,7 @@ private void _setupTask() {
     {
 
       _initHook(hook);
-
+      if (entry == true && closeMatch.getItemCount() == 0){
       //URI that gets the xml file
       String xml = MapLookup.getMap(address.getText());
       
@@ -125,7 +125,7 @@ private void _setupTask() {
 			      closeMatch.addItem(getTagValue("formatted_address", eElement));
 			      xmlLat.add(getTagValue("lat", eElement));
 			      xmlLon.add(getTagValue("lng", eElement));
-			      String check = "OK";
+			      
 			      
 			     // System.out.println(closeMatch.getSelectedIndex());
 			      
@@ -144,11 +144,8 @@ private void _setupTask() {
 			       
 			   }
 			}
-      
+      }
       // get the uri for the static map
-		//city.setText(addressList);
-	 double temp = Double.parseDouble(xmlLat.get(0).toString());
-	// System.out.println("WTF" + temp);
 	
 	 if (entry == true)
 	 {
@@ -157,8 +154,6 @@ private void _setupTask() {
 	 }
 	// else
 	
-      double x = Double.parseDouble(ttfLat.getText()) + 3;
-      double y = Double.parseDouble(ttfLon.getText()) - 3;
       String uri = MapLookup.getMap(
     		  Double.parseDouble(ttfLat.getText()),
               Double.parseDouble(ttfLon.getText()),
@@ -402,7 +397,6 @@ private void initComponents() {
   // Generated using JFormDesigner non-commercial license
   panel4 = new JPanel();
   mapPane = new JPanel();	
-  state = new JTextField();
   
   dialogPane = new JPanel();
   contentPanel = new JPanel();
@@ -526,7 +520,6 @@ private void initComponents() {
   		//===== panel4 =====
   		panel4.setOpaque(false);
 		panel4.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
 /*			//---- btnZoomin ----
   			btnZoomin.setSize(2, 2);
   			btnZoomin.setText("+");
@@ -935,9 +928,6 @@ private JButton btnPanLeft;
 private JButton btnPanRight;
 private JSlider sldZoom;
 private JTextField address;
-private JTextField state;
-private String lat ="";
-private String lon ="";
 private ArrayList xmlLat;
 private ArrayList xmlLon;
 private int matchIndex;
