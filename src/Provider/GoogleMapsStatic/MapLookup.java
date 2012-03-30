@@ -5,6 +5,7 @@ import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.*;
 
 import java.io.*;
+import java.net.URLEncoder;
 
 /**
  * MapLookup
@@ -23,6 +24,7 @@ public class MapLookup {
 public static final String GmapStaticURI = "http://maps.google.com/staticmap";
 public static final String GmapStatApiUri = "http://maps.google.com/maps/api/staticmap";
 public static final String GmapStatXmlUri = "http://maps.googleapis.com/maps/api/geocode/xml?address=";
+public static final String GmapDirecXmlUri = "http://maps.googleapis.com/maps/api/directions/xml?";
 public static final String GmapLicenseKey = "key";
 
 public static final String CenterKey = "center";
@@ -74,8 +76,8 @@ public static String getMap(double lat, double lon, int sizeW, int sizeH, int zo
   return _map.getURI(lat, lon, sizeW, sizeH, zoom);
 }
 
-public static String getMap(double lat, double lon, int sizeW, int sizeH, int zoom, MapMarker... markers) {
-	  return _map.getURI(lat, lon, sizeW, sizeH, zoom, markers);
+public static String getMap(double lat, double lon, int sizeW, int sizeH, int zoom, String path, MapMarker... markers) throws UnsupportedEncodingException {
+	  return _map.getURI(lat, lon, sizeW, sizeH, zoom, path, markers);
 	}
 
 public static String getMap(String address, String city, String state, int sizeW, int sizeH, int zoom, MapMarker... markers) {
@@ -89,6 +91,10 @@ public static String getMap(double lat, double lon, int sizeW, int sizeH, MapMar
 public static String getMap(String address){
 	return _map.getURI(address);
 }
+public static String getMap(double latA, double lonA, double latB, double lonB){
+	return _map.getURI(latA,lonA,  latB,  lonB);
+}
+
 public static String getMap(double lat, double lon, MapMarker... markers) {
   return getMap(lat, lon, SizeMax, SizeMax, markers);
 }
@@ -157,12 +163,14 @@ public String getURI(double lat, double lon, int sizeW, int sizeH, int zoom) {
   return sb.toString();
 }
 
-public String getURI(double lat, double lon, int sizeW, int sizeH, int zoom, MapMarker... markers) {
+public String getURI(double lat, double lon, int sizeW, int sizeH, int zoom, String path, MapMarker... markers) throws UnsupportedEncodingException {
 	  _validateParams(sizeW, sizeH, zoom);
-
+	  
+	  String encodedPath = URLEncoder.encode(path, "UTF-8");
+		  	
 	  // generate the URI
 	  StringBuilder sb = new StringBuilder();
-	  sb.append(GmapStaticURI);
+	  sb.append(GmapStatApiUri);
 
 	  // center key
 	  sb.
@@ -184,10 +192,14 @@ public String getURI(double lat, double lon, int sizeW, int sizeH, int zoom, Map
 	      append("&").
 	      append(MarkerUtils.toString(markers));
 
-	  // maps key
+	  //encoded path
 	  sb.
-	      append("&").
-	      append(GmapLicenseKey).append("=").append(GmapLicense);
+	  	append("&path=weight:3%7Ccolor:red%7Cenc:").
+	  	append(encodedPath); 
+	  
+	  // sensor
+	  sb.
+	      append("&sensor=false");
 
 	  return sb.toString();
 	}
@@ -252,6 +264,28 @@ public String getURI(String address) {
 	  return sb.toString();
 	}
 
+public String getURI(double latA, double lonA, double latB, double lonB) {
+	  
+
+	  // generate the URI
+	  StringBuilder sb = new StringBuilder();
+	  sb.append(GmapDirecXmlUri);
+
+	  // origin key
+	  sb.
+	      append("origin").
+	     append("=").append(latA).append(",").append(lonA);
+
+	  // destination key
+	  sb.
+	      append("&destination").
+	      append("=").append(latB).append(",").append(lonB);
+	  
+	  //Sensor Line
+	  sb.
+	  	append("&sensor=false");
+	  return sb.toString();
+	}
 private void _validateParams(int sizeW, int sizeH, int zoom) {
   if (zoom < ZoomMin || zoom > ZoomMax)
     throw new IllegalArgumentException("zoom value is out of range [" + ZoomMin + "-" + ZoomMax + "]");

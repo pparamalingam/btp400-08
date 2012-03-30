@@ -17,6 +17,7 @@ import java.util.regex.*;
  */
 public class MapMarker implements Serializable {
 static final long serialVersionUID = 5805831996822361347L;
+public static final String MarkerSeparator = "%7C";
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // enum for marker colors
@@ -32,6 +33,7 @@ private char _alpha = '1';
 private MarkerColor _color = null;
 private double _lat = -1;
 private double _lon = -1;
+
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // constructor
@@ -54,22 +56,25 @@ public MapMarker(double lat, double lon) {
   _lat = lat;
   _lon = lon;
 }
-
+public double getLat() { return _lat; }
+public double getLon() { return _lon; }
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // generate Google Maps uri
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 public String toString() {
   StringBuilder sb = new StringBuilder();
 
-  sb.append(_lat).append(",").append(_lon);
+  sb.append("&markers=");
 
   if (_color != null && _alpha != '1') {
     sb.
-        append(",").
+        append("color:").
         append(_color.toString()).
+        append(MarkerSeparator).
+        append("label:").
         append(_alpha);
   }
-
+  sb.append(MarkerSeparator).append(_lat).append(",").append(_lon);
   return sb.toString();
 }
 

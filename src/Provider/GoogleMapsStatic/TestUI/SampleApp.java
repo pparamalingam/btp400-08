@@ -31,16 +31,20 @@ import java.util.ArrayList;
 import java.util.concurrent.*;
 
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 
 /** @author nazmul idris */
@@ -144,11 +148,12 @@ private void _setupTask() {
               Integer.parseInt(ttfSizeW.getText()),
               Integer.parseInt(ttfSizeH.getText()),
               mapZoom,
+              getEncodedPath(),
               A,
               B 
       								
       );
-      		  						 
+      	  						 
       sout("Google Maps URI=" + uri);
 
       // get the map from Google
@@ -267,6 +272,32 @@ private static String getTagValue(String sTag, Element eElement) {
 	return nValue.getNodeValue();
 }
 
+private static String getEncodedPath() throws ParserConfigurationException, MalformedURLException, SAXException, IOException{
+	
+	
+    String xml = MapLookup.getMap(A.getLat(), A.getLon(), B.getLat(), B.getLon());
+    
+    //Handle XML - http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    Document doc = db.parse(new URL(xml).openStream());
+    NodeList nodes = doc.getElementsByTagName("overview_polyline");
+
+		for (int temp = 0; temp < nodes.getLength(); temp++) {
+			 
+			   Node nNode = nodes.item(temp);
+			   if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				   
+			      Element eElement = (Element) nNode;
+			      path = getTagValue("points", eElement);
+			   }
+			}
+    
+	
+	
+	return path;
+}
+
 private void _displayImgInFrame() {
 /*
   final JFrame frame = new JFrame("Google Static Map");
@@ -372,7 +403,7 @@ private void initComponents() {
 
   //======== this ========
   setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-  setTitle("Google Static Maps");
+  setTitle("Google Static Maps - Preshoth Paramalingam");
   setIconImage(null);
   Container contentPane = getContentPane();
   contentPane.setLayout(new GridLayout(1,2));
@@ -506,7 +537,7 @@ private void initComponents() {
   			btnAddMarkerA = new JButton("Add Marker A");
   			btnAddMarkerA.addActionListener(new ActionListener() {
   				public void actionPerformed(ActionEvent e) {
-  					A = new MapMarker(Double.parseDouble(ttfLat.getText()),  Double.parseDouble(ttfLon.getText()), MapMarker.MarkerColor.green, 'a');
+  					A = new MapMarker(Double.parseDouble(ttfLat.getText()),  Double.parseDouble(ttfLon.getText()), MapMarker.MarkerColor.green, 'A');
   					startTaskAction();
   					
   				}
@@ -520,8 +551,9 @@ private void initComponents() {
   			btnAddMarkerB = new JButton("Add Marker B");
   			btnAddMarkerB.addActionListener(new ActionListener() {
   				public void actionPerformed(ActionEvent e) {
-  					B = new MapMarker(Double.parseDouble(ttfLat.getText()),  Double.parseDouble(ttfLon.getText()), MapMarker.MarkerColor.red, 'b');
+  					B = new MapMarker(Double.parseDouble(ttfLat.getText()),  Double.parseDouble(ttfLon.getText()), MapMarker.MarkerColor.red, 'B');
   					startTaskAction();
+  					
   				}
   			});
   			GridBagConstraints gbc_btnAddMarkerB = new GridBagConstraints();
@@ -834,6 +866,10 @@ private void initComponents() {
   });
   setSize(1600, 485);
   setLocationRelativeTo(null);
+  
+
+
+
   // JFormDesigner - End of component initialization  //GEN-END:initComponents
 }
 
@@ -851,8 +887,9 @@ private ArrayList xmlLat;
 private ArrayList xmlLon;
 private int matchIndex;
 private Boolean entry=true;
-private MapMarker A;
-private MapMarker B;
+private static MapMarker A;
+private static MapMarker B;
+private static String path="";
 
 private JPanel dialogPane;
 private JPanel contentPanel;
