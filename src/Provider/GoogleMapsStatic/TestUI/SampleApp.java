@@ -309,11 +309,13 @@ private void _displayImgInFrame() {
                                              _img.getWidth(), _img.getHeight()));
   
   mapPane.removeAll();
-
+  panelMap.removeAll();
 	mapPane.add(panel4, BorderLayout.WEST);
 
-  mapPane.add(imgLbl, BorderLayout.CENTER);
+  panelMap.add(imgLbl, BorderLayout.CENTER);
+  mapPane.add(panelMap, BorderLayout.CENTER);
   mapPane.add(sldZoom, BorderLayout.SOUTH);
+  panelMap.requestFocus();
   
 	
 }
@@ -721,7 +723,6 @@ private void initComponents() {
     			  			  			  			  					address.setCaretPosition(0);
     			  			  			  			  					if (address.getText().equals("")==false)
     			  			  			  			  						startTaskAction();
-    			  			  			  			  					
     			  			  			  			  				}
     			  			  			  			  			});
     			  			  			  			  			GridBagConstraints gbc_btnGetMap = new GridBagConstraints();
@@ -833,6 +834,7 @@ private void initComponents() {
     			  			  			  			  			  			  			  			  			  			  						matchIndex = closeMatch.getSelectedIndex();
     			  			  			  			  			  			  			  			  			  			  						entry = true;
     			  			  			  			  			  			  			  			  			  			  						startTaskAction();
+    			  			  			  			  			  			  			  			  			  			  						
 
     			  			  			  			  			  			  			  			  			  			  					}
     			  			  			  			  			  			  			  			  			  			  				});
@@ -856,6 +858,23 @@ private void initComponents() {
   sldZoom.setPaintLabels(true);
   sldZoom.setPaintTrack(true);
   sldZoom.setSnapToTicks(true);
+  
+  panelMap = new JPanel();
+  panelMap.addKeyListener(new KeyAdapter() {
+  	@Override
+  	public void keyPressed(KeyEvent e) {
+  	  	int key = e.getKeyCode();
+  	  	if (key == KeyEvent.VK_UP)
+  	  		btnPanUp.doClick();
+  	  	else if (key == KeyEvent.VK_DOWN)
+  	  		btnPanDown.doClick();
+  	  	else if (key == KeyEvent.VK_LEFT)
+  	  		btnPanLeft.doClick();
+  	  	else if (key == KeyEvent.VK_RIGHT)
+  	  		btnPanRight.doClick();
+  	}
+  });
+  mapPane.add(panelMap, BorderLayout.CENTER);
   sldZoom.addChangeListener(new ChangeListener(){
   	public void stateChanged(ChangeEvent e) {
   		JSlider source = (JSlider)e.getSource();
@@ -920,5 +939,6 @@ private JComboBox closeMatch;
 private JLabel lblClosestMatch;
 private JButton btnAddMarkerA;
 private JButton btnAddMarkerB;
+private JPanel panelMap;
 // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

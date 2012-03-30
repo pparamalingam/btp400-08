@@ -194,7 +194,7 @@ public String getURI(double lat, double lon, int sizeW, int sizeH, int zoom, Str
 
 	  //encoded path
 	  sb.
-	  	append("&path=weight:3%7Ccolor:red%7Cenc:").
+	  	append("&path=weight:4%7Ccolor:blue%7Cenc:").
 	  	append(encodedPath); 
 	  
 	  // sensor
