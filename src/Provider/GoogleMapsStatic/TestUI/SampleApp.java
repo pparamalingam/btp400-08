@@ -806,12 +806,15 @@ private void initComponents() {
     			  			  			  			  			  			  			  			  			  			  			gbc_label6.gridy = 2;
     			  			  			  			  			  			  			  			  			  			  			panel1.add(label6, gbc_label6);
     			  			  			  			  			  			  			  			  			  			  			address = new JTextField();
-    			  			  			  			  			  			  			  			  			  			  			address.addFocusListener(new FocusAdapter() {
+    			  			  			  			  			  			  			  			  			  			  			address.addKeyListener(new KeyAdapter() {
     			  			  			  			  			  			  			  			  			  			  				@Override
-    			  			  			  			  			  			  			  			  			  			  				public void focusGained(FocusEvent e) {
-    			  			  			  			  			  			  			  			  			  			  					address.selectAll();
+    			  			  			  			  			  			  			  			  			  			  				public void keyPressed(KeyEvent e) {
+    			  			  			  			  			  			  			  			  			  			  					int key = e.getKeyCode();
+    			  			  			  			  			  			  			  			  			  			  					if (key == KeyEvent.VK_ENTER)
+    			  			  			  			  			  			  			  			  			  			  						btnGetMap.doClick();
     			  			  			  			  			  			  			  			  			  			  				}
     			  			  			  			  			  			  			  			  			  			  			});
+    			  			  			  			  			  			  			  			  			  			  		
     			  			  			  			  			  			  			  			  			  			  			GridBagConstraints gbc_address = new GridBagConstraints();
     			  			  			  			  			  			  			  			  			  			  			gbc_address.anchor = GridBagConstraints.NORTH;
     			  			  			  			  			  			  			  			  			  			  			gbc_address.fill = GridBagConstraints.HORIZONTAL;
