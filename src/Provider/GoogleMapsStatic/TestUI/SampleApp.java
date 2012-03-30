@@ -154,24 +154,18 @@ private void _setupTask() {
 	 ttfLon.setText(xmlLon.get(matchIndex).toString());
 	 }
 	// else
+	
 		 System.out.println(entry);
       double x = Double.parseDouble(ttfLat.getText()) + 3;
       double y = Double.parseDouble(ttfLon.getText()) - 3;
-      String uri = MapLookup.getMap( /*"1600 Amphitheatre Pky",
-    		  						 "ountain View",
-    		  						 "CA",
-                                     Integer.parseInt(ttfSizeW.getText()),
-                                     Integer.parseInt(ttfSizeH.getText()),
-                                     mapZoom,
-                                     new MapMarker(38.931099, -77.3489, MapMarker.MarkerColor.green, 'v'),
-                                     new MapMarker(x+2, y-1, MapMarker.MarkerColor.red, 'n')*/
+      String uri = MapLookup.getMap(
     		  Double.parseDouble(ttfLat.getText()),
               Double.parseDouble(ttfLon.getText()),
               Integer.parseInt(ttfSizeW.getText()),
               Integer.parseInt(ttfSizeH.getText()),
               mapZoom,
-              new MapMarker(38.931099, -77.3489, MapMarker.MarkerColor.green, 'v'),
-              new MapMarker(x+2, y-1, MapMarker.MarkerColor.red, 'n') 
+              A,
+              B 
       								
       );
       		  						 
@@ -596,6 +590,33 @@ private void initComponents() {
   	  				mapPane.repaint();
   				}
   			});
+  			
+  			btnAddMarkerA = new JButton("Add Marker A");
+  			btnAddMarkerA.addActionListener(new ActionListener() {
+  				public void actionPerformed(ActionEvent e) {
+  					A = new MapMarker(Double.parseDouble(ttfLat.getText()),  Double.parseDouble(ttfLon.getText()), MapMarker.MarkerColor.green, 'a');
+  					startTaskAction();
+  					
+  				}
+  			});
+  			GridBagConstraints gbc_btnAddMarkerA = new GridBagConstraints();
+  			gbc_btnAddMarkerA.insets = new Insets(0, 0, 5, 5);
+  			gbc_btnAddMarkerA.gridx = 0;
+  			gbc_btnAddMarkerA.gridy = 0;
+  			panel4.add(btnAddMarkerA, gbc_btnAddMarkerA);
+  			
+  			btnAddMarkerB = new JButton("Add Marker B");
+  			btnAddMarkerB.addActionListener(new ActionListener() {
+  				public void actionPerformed(ActionEvent e) {
+  					B = new MapMarker(Double.parseDouble(ttfLat.getText()),  Double.parseDouble(ttfLon.getText()), MapMarker.MarkerColor.red, 'b');
+  					startTaskAction();
+  				}
+  			});
+  			GridBagConstraints gbc_btnAddMarkerB = new GridBagConstraints();
+  			gbc_btnAddMarkerB.insets = new Insets(0, 0, 5, 5);
+  			gbc_btnAddMarkerB.gridx = 0;
+  			gbc_btnAddMarkerB.gridy = 1;
+  			panel4.add(btnAddMarkerB, gbc_btnAddMarkerB);
   			GridBagConstraints gbc_btnPanUp = new GridBagConstraints();
   			gbc_btnPanUp.insets = new Insets(0, 0, 5, 5);
   			gbc_btnPanUp.gridx = 3;
@@ -678,7 +699,7 @@ private void initComponents() {
   				}
   			});
   			GridBagConstraints gbc_btnPanDown = new GridBagConstraints();
-  			gbc_btnPanDown.insets = new Insets(0, 0, 5, 5);
+  			gbc_btnPanDown.insets = new Insets(0, 0, 0, 5);
   			gbc_btnPanDown.gridx = 3;
   			gbc_btnPanDown.gridy = 3;
   			panel4.add(btnPanDown, gbc_btnPanDown);
@@ -749,8 +770,10 @@ private void initComponents() {
     			  			  			  			  			btnGetMap.setMnemonic('G');
     			  			  			  			  			btnGetMap.addActionListener(new ActionListener() {
     			  			  			  			  				public void actionPerformed(ActionEvent e) {
+    			  			  			  			  					A = new MapMarker(90, 180);
+    			  			  			  			  					B = new MapMarker(90, 180);
     			  			  			  			  					closeMatch.removeAllItems();
-    			  			  			  			  					entry = true;
+    			  			  			  			  					entry = true;	
     			  			  			  			  					startTaskAction();
     			  			  			  			  				}
     			  			  			  			  			});
@@ -911,6 +934,8 @@ private ArrayList xmlLat;
 private ArrayList xmlLon;
 private int matchIndex;
 private Boolean entry=true;
+private MapMarker A;
+private MapMarker B;
 
 private JPanel dialogPane;
 private JPanel contentPanel;
@@ -939,5 +964,7 @@ private JLabel lblProgressStatus;
 private int mapZoom;
 private JComboBox closeMatch;
 private JLabel lblClosestMatch;
+private JButton btnAddMarkerA;
+private JButton btnAddMarkerB;
 // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
