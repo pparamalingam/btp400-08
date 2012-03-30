@@ -79,12 +79,18 @@ private void doInit() {
   try {
     btnGetMap.setIcon(ImageUtils.loadScaledBufferedIcon("ok1.png", W, H, blur, alpha));
     btnQuit.setIcon(ImageUtils.loadScaledBufferedIcon("charging.png", W, H, blur, alpha));
+    address.setText("70 Pond Rd Toronto Ontario");
+    address.setCaretPosition(0);
+    
   }
   catch (Exception e) {
     System.out.println(e);
   }
 
   _setupTask();
+  btnGetMap.doClick();
+  address.selectAll();
+  
 }
 
 /** create a test task and wire it up with a task handler that dumps output to the textarea */
@@ -101,9 +107,7 @@ private void _setupTask() {
 
       _initHook(hook);
 
-      // set the license key
-     
-      
+      //URI that gets the xml file
       String xml = MapLookup.getMap(address.getText());
       
       //Handle XML - http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
@@ -113,7 +117,6 @@ private void _setupTask() {
       NodeList nodes = doc.getElementsByTagName("result");
       xmlLat = new ArrayList(nodes.getLength());
       xmlLon = new ArrayList(nodes.getLength());
-      System.out.println(xmlLat);
 		for (int temp = 0; temp < nodes.getLength(); temp++) {
 			 
 			   Node nNode = nodes.item(temp);
@@ -155,7 +158,6 @@ private void _setupTask() {
 	 }
 	// else
 	
-		 System.out.println(entry);
       double x = Double.parseDouble(ttfLat.getText()) + 3;
       double y = Double.parseDouble(ttfLon.getText()) - 3;
       String uri = MapLookup.getMap(
@@ -880,7 +882,6 @@ private void initComponents() {
     			  			  			  			  			  			  			  			  			  			  						matchIndex = closeMatch.getSelectedIndex();
     			  			  			  			  			  			  			  			  			  			  						entry = true;
     			  			  			  			  			  			  			  			  			  			  						startTaskAction();
-    			  			  			  			  			  			  			  			  			  			  						System.out.println("Shit is twisted");
 
     			  			  			  			  			  			  			  			  			  			  					}
     			  			  			  			  			  			  			  			  			  			  				});
