@@ -24,9 +24,10 @@
 - Closest address match implemented using JComboBox
   * Using DOM XML parsing to parse Google Geocode API to pull list of matching address
 - Overall look of application remade 
+- Implemented Markers using JButtons
 
 Things Left:
 - Add routes between markers (using closest known point to lat/lon) (May be cancelled due to time)
   * Need to parse (using DOM) Google Direction Service API for encoded path points
-- Basic waypoints
+
 
