@@ -349,6 +349,7 @@ private void _displayImgInFrame() {
   panelMap.add(imgLbl, BorderLayout.CENTER);
   mapPane.add(panelMap, BorderLayout.CENTER);
   mapPane.add(sldZoom, BorderLayout.SOUTH);
+  mapPane.add(searchPanel, BorderLayout.NORTH);
   panelMap.requestFocus();
   
 	
@@ -828,62 +829,6 @@ private void initComponents() {
     			  			  			  			  			  			  			  			  			  			gbc_btnQuit.gridx = 5;
     			  			  			  			  			  			  			  			  			  			gbc_btnQuit.gridy = 1;
     			  			  			  			  			  			  			  			  			  			panel1.add(btnQuit, gbc_btnQuit);
-    			  			  			  			  			  			  			  			  			  			label6 = new JLabel();
-    			  			  			  			  			  			  			  			  			  			
-    			  			  			  			  			  			  			  			  			  			  			//---- label6 ----
-    			  			  			  			  			  			  			  			  			  			  			label6.setText("Search Address");
-    			  			  			  			  			  			  			  			  			  			  			label6.setHorizontalAlignment(SwingConstants.RIGHT);
-    			  			  			  			  			  			  			  			  			  			  			GridBagConstraints gbc_label6 = new GridBagConstraints();
-    			  			  			  			  			  			  			  			  			  			  			gbc_label6.fill = GridBagConstraints.BOTH;
-    			  			  			  			  			  			  			  			  			  			  			gbc_label6.insets = new Insets(0, 0, 0, 5);
-    			  			  			  			  			  			  			  			  			  			  			gbc_label6.gridx = 0;
-    			  			  			  			  			  			  			  			  			  			  			gbc_label6.gridy = 2;
-    			  			  			  			  			  			  			  			  			  			  			panel1.add(label6, gbc_label6);
-    			  			  			  			  			  			  			  			  			  			  			address = new JTextField();
-    			  			  			  			  			  			  			  			  			  			  			address.addKeyListener(new KeyAdapter() {
-    			  			  			  			  			  			  			  			  			  			  				@Override
-    			  			  			  			  			  			  			  			  			  			  				public void keyPressed(KeyEvent e) {
-    			  			  			  			  			  			  			  			  			  			  					int key = e.getKeyCode();
-    			  			  			  			  			  			  			  			  			  			  					if (key == KeyEvent.VK_ENTER)
-    			  			  			  			  			  			  			  			  			  			  						btnGetMap.doClick();
-    			  			  			  			  			  			  			  			  			  			  				}
-    			  			  			  			  			  			  			  			  			  			  			});
-    			  			  			  			  			  			  			  			  			  			  		
-    			  			  			  			  			  			  			  			  			  			  			GridBagConstraints gbc_address = new GridBagConstraints();
-    			  			  			  			  			  			  			  			  			  			  			gbc_address.anchor = GridBagConstraints.NORTH;
-    			  			  			  			  			  			  			  			  			  			  			gbc_address.fill = GridBagConstraints.HORIZONTAL;
-    			  			  			  			  			  			  			  			  			  			  			gbc_address.insets = new Insets(0, 0, 0, 5);
-    			  			  			  			  			  			  			  			  			  			  			gbc_address.gridx = 1;
-    			  			  			  			  			  			  			  			  			  			  			gbc_address.gridy = 2;
-    			  			  			  			  			  			  			  			  			  			  			panel1.add(address, gbc_address);
-    			  			  			  			  			  			  			  			  			  			  			
-    			  			  			  			  			  			  			  			  			  			  			lblClosestMatch = new JLabel("Closest Match");
-    			  			  			  			  			  			  			  			  			  			  			GridBagConstraints gbc_lblClosestMatch = new GridBagConstraints();
-    			  			  			  			  			  			  			  			  			  			  			gbc_lblClosestMatch.insets = new Insets(0, 0, 0, 5);
-    			  			  			  			  			  			  			  			  			  			  			gbc_lblClosestMatch.anchor = GridBagConstraints.EAST;
-    			  			  			  			  			  			  			  			  			  			  			gbc_lblClosestMatch.gridx = 2;
-    			  			  			  			  			  			  			  			  			  			  			gbc_lblClosestMatch.gridy = 2;
-    			  			  			  			  			  			  			  			  			  			  			panel1.add(lblClosestMatch, gbc_lblClosestMatch);
-    			  			  			  			  			  			  			  			  			  			  				
-    			  			  			  			  			  			  			  			  			  			  				closeMatch = new JComboBox();
-    			  			  			  			  			  			  			  			  			  			  				closeMatch.addItemListener(new ItemListener() {
-    			  			  			  			  			  			  			  			  			  			  					public void itemStateChanged(ItemEvent e) {
-    			  			  			  			  			  			  			  			  			  			  						matchIndex = closeMatch.getSelectedIndex();
-    			  			  			  			  			  			  			  			  			  			  						entry = true;
-    			  			  			  			  			  			  			  			  			  			  						startTaskAction();
-    			  			  			  			  			  			  			  			  			  			  						
-
-    			  			  			  			  			  			  			  			  			  			  					}
-    			  			  			  			  			  			  			  			  			  			  				});
-    			  			  			  			  			  			  			  			  			  			 
-    			  			  			  			  			  			  			  			  			  			  				
-    			  			  			  			  			  			  			  			  			  			  				
-    			  			  			  			  			  			  			  			  			  			  					GridBagConstraints gbc_closeMatch = new GridBagConstraints();
-    			  			  			  			  			  			  			  			  			  			  					gbc_closeMatch.gridwidth = 3;
-    			  			  			  			  			  			  			  			  			  			  					gbc_closeMatch.fill = GridBagConstraints.HORIZONTAL;
-    			  			  			  			  			  			  			  			  			  			  					gbc_closeMatch.gridx = 3;
-    			  			  			  			  			  			  			  			  			  			  					gbc_closeMatch.gridy = 2;
-    			  			  			  			  			  			  			  			  			  			  					panel1.add(closeMatch, gbc_closeMatch);
   contentPane.add(mapPane, BorderLayout.EAST);
   sldZoom = new JSlider(SwingConstants.HORIZONTAL, 0, 19, 14);
   mapPane.add(sldZoom, BorderLayout.SOUTH);
@@ -912,6 +857,68 @@ private void initComponents() {
   	}
   });
   mapPane.add(panelMap, BorderLayout.CENTER);
+  
+  searchPanel = new JPanel();
+  mapPane.add(searchPanel, BorderLayout.NORTH);
+  GridBagLayout gbl_searchPanel = new GridBagLayout();
+  gbl_searchPanel.columnWidths = new int[]{194, 0, 194, 0, 0, 0, 0, 194, 0, 0, 194, 0};
+  gbl_searchPanel.rowHeights = new int[]{20, 0};
+  gbl_searchPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+  gbl_searchPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+  searchPanel.setLayout(gbl_searchPanel);
+  label6 = new JLabel();
+  GridBagConstraints gbc_label6 = new GridBagConstraints();
+  gbc_label6.fill = GridBagConstraints.BOTH;
+  gbc_label6.insets = new Insets(0, 0, 0, 5);
+  gbc_label6.gridx = 1;
+  gbc_label6.gridy = 0;
+  searchPanel.add(label6, gbc_label6);
+  
+    			//---- label6 ----
+    			label6.setText("Address");
+    			label6.setHorizontalAlignment(SwingConstants.LEFT);
+  address = new JTextField();
+  GridBagConstraints gbc_address = new GridBagConstraints();
+  gbc_address.gridwidth = 3;
+  gbc_address.fill = GridBagConstraints.BOTH;
+  gbc_address.insets = new Insets(0, 0, 0, 5);
+  gbc_address.gridx = 2;
+  gbc_address.gridy = 0;
+  searchPanel.add(address, gbc_address);
+  address.addKeyListener(new KeyAdapter() {
+  	@Override
+  	public void keyPressed(KeyEvent e) {
+  		int key = e.getKeyCode();
+  		if (key == KeyEvent.VK_ENTER)
+  			btnGetMap.doClick();
+  	}
+  });
+  
+  lblClosestMatch = new JLabel("Closest Match");
+  GridBagConstraints gbc_lblClosestMatch = new GridBagConstraints();
+  gbc_lblClosestMatch.fill = GridBagConstraints.BOTH;
+  gbc_lblClosestMatch.insets = new Insets(0, 0, 0, 5);
+  gbc_lblClosestMatch.gridx = 6;
+  gbc_lblClosestMatch.gridy = 0;
+  searchPanel.add(lblClosestMatch, gbc_lblClosestMatch);
+  
+  closeMatch = new JComboBox();
+  GridBagConstraints gbc_closeMatch = new GridBagConstraints();
+  gbc_closeMatch.insets = new Insets(0, 0, 0, 5);
+  gbc_closeMatch.gridwidth = 3;
+  gbc_closeMatch.fill = GridBagConstraints.BOTH;
+  gbc_closeMatch.gridx = 7;
+  gbc_closeMatch.gridy = 0;
+  searchPanel.add(closeMatch, gbc_closeMatch);
+  closeMatch.addItemListener(new ItemListener() {
+  	public void itemStateChanged(ItemEvent e) {
+  		matchIndex = closeMatch.getSelectedIndex();
+  		entry = true;
+  		startTaskAction();
+  		
+
+  	}
+  });
   sldZoom.addChangeListener(new ChangeListener(){
   	public void stateChanged(ChangeEvent e) {
   		JSlider source = (JSlider)e.getSource();
@@ -977,5 +984,6 @@ private JLabel lblClosestMatch;
 private JButton btnAddMarkerA;
 private JButton btnAddMarkerB;
 private JPanel panelMap;
+private JPanel searchPanel;
 // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
