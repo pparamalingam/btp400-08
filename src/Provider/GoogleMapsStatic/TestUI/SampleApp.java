@@ -123,14 +123,9 @@ private void _setupTask() {
 			      closeMatch.addItem(getTagValue("formatted_address", eElement));
 			      xmlLat.add(getTagValue("lat", eElement));
 			      xmlLon.add(getTagValue("lng", eElement));
-			      System.out.println(xmlLat);
-			    //  lat = xmlLat.get(matchIndex).toString();
-		    	//  lon = xmlLon.get(matchIndex).toString();
-		    	//  ttfLat.setText(lat);
-		    	//   ttfLon.setText(lon);
 			      String check = "OK";
 			      
-			      System.out.println(closeMatch.getSelectedIndex());
+			     // System.out.println(closeMatch.getSelectedIndex());
 			      
 			      /*if ((address.getText().isEmpty()==false) && (check.equals("OK") && lat.equals("empty")==false)){
 			    	  
@@ -151,12 +146,15 @@ private void _setupTask() {
       // get the uri for the static map
 		//city.setText(addressList);
 	 double temp = Double.parseDouble(xmlLat.get(0).toString());
-	 System.out.println("WTF" + temp);
+	// System.out.println("WTF" + temp);
 	
-	  
-	 ttfLat.setText(xmlLat.get(matchIndex).toString());
+	 if (entry == true)
+	 {
+	ttfLat.setText(xmlLat.get(matchIndex).toString());
 	 ttfLon.setText(xmlLon.get(matchIndex).toString());
-
+	 }
+	// else
+		 System.out.println(entry);
       double x = Double.parseDouble(ttfLat.getText()) + 3;
       double y = Double.parseDouble(ttfLon.getText()) - 3;
       String uri = MapLookup.getMap( /*"1600 Amphitheatre Pky",
@@ -585,6 +583,7 @@ private void initComponents() {
   			btnPanUp.setOpaque(true);
   			btnPanUp.addActionListener(new ActionListener() {
   				public void actionPerformed(ActionEvent e) {
+  					entry = false;
   	  				double x = Double.parseDouble(ttfLat.getText());
   	  				
   	  				x = x+ 131.072/java.lang.Math.pow (2,mapZoom+1);
@@ -611,6 +610,7 @@ private void initComponents() {
   			btnPanRight.setOpaque(true);
   			btnPanRight.addActionListener(new ActionListener() {
   				public void actionPerformed(ActionEvent e) {
+  					entry = false;
   	  				double x = Double.parseDouble(ttfLon.getText());
   	  				
   	  				x = x + 131.072/java.lang.Math.pow (2,mapZoom+1);
@@ -632,6 +632,7 @@ private void initComponents() {
   			btnPanLeft.setOpaque(true);
   			btnPanLeft.addActionListener(new ActionListener() {
   				public void actionPerformed(ActionEvent e) {
+  					entry = false;
   	  				double x = Double.parseDouble(ttfLon.getText());
   	  				
   	  				x = x - 131.072/java.lang.Math.pow (2,mapZoom+1);
@@ -663,6 +664,7 @@ private void initComponents() {
   			btnPanDown.setOpaque(true);
   			btnPanDown.addActionListener(new ActionListener() {
   				public void actionPerformed(ActionEvent e) {
+  					entry = false;
   				  				double x = Double.parseDouble(ttfLat.getText());
   				  				
   				  				x = x - 131.072/java.lang.Math.pow (2,mapZoom+1);
@@ -729,6 +731,7 @@ private void initComponents() {
     			  			  			gbc_label4.gridy = 0;
     			  			  			panel1.add(label4, gbc_label4);
     			  			  			ttfLat = new JTextField();
+    			  			  			ttfLat.setEditable(false);
     			  			  			
     			  			  			  			//---- ttfLat ----
     			  			  			  			//ttfLat.setText("38.931099");
@@ -747,6 +750,7 @@ private void initComponents() {
     			  			  			  			  			btnGetMap.addActionListener(new ActionListener() {
     			  			  			  			  				public void actionPerformed(ActionEvent e) {
     			  			  			  			  					closeMatch.removeAllItems();
+    			  			  			  			  					entry = true;
     			  			  			  			  					startTaskAction();
     			  			  			  			  				}
     			  			  			  			  			});
@@ -790,6 +794,7 @@ private void initComponents() {
     			  			  			  			  			  			  			  			gbc_label5.gridy = 1;
     			  			  			  			  			  			  			  			panel1.add(label5, gbc_label5);
     			  			  			  			  			  			  			  			ttfLon = new JTextField();
+    			  			  			  			  			  			  			  			ttfLon.setEditable(false);
     			  			  			  			  			  			  			  			
     			  			  			  			  			  			  			  			  			//---- ttfLon ----
     			  			  			  			  			  			  			  			  			//ttfLon.setText("-77.3489");
@@ -847,17 +852,20 @@ private void initComponents() {
     			  			  			  			  			  			  			  			  			  			  			panel1.add(lblClosestMatch, gbc_lblClosestMatch);
     			  			  			  			  			  			  			  			  			  			  				
     			  			  			  			  			  			  			  			  			  			  				closeMatch = new JComboBox();
-    			  			  			  			  			  			  			  			  			  			  				closeMatch.addActionListener(new ActionListener() {
-    			  			  			  			  			  			  			  			  			  			  					public void actionPerformed(ActionEvent e) {
+    			  			  			  			  			  			  			  			  			  			  				closeMatch.addItemListener(new ItemListener() {
+    			  			  			  			  			  			  			  			  			  			  					public void itemStateChanged(ItemEvent e) {
     			  			  			  			  			  			  			  			  			  			  						matchIndex = closeMatch.getSelectedIndex();
+    			  			  			  			  			  			  			  			  			  			  						entry = true;
     			  			  			  			  			  			  			  			  			  			  						startTaskAction();
+    			  			  			  			  			  			  			  			  			  			  						System.out.println("Shit is twisted");
+
     			  			  			  			  			  			  			  			  			  			  					}
     			  			  			  			  			  			  			  			  			  			  				});
-    			  			  			  			  			  			  			  			  			  			  			
+    			  			  			  			  			  			  			  			  			  			 
     			  			  			  			  			  			  			  			  			  			  				
     			  			  			  			  			  			  			  			  			  			  				
     			  			  			  			  			  			  			  			  			  			  					GridBagConstraints gbc_closeMatch = new GridBagConstraints();
-    			  			  			  			  			  			  			  			  			  			  					gbc_closeMatch.gridwidth = 2;
+    			  			  			  			  			  			  			  			  			  			  					gbc_closeMatch.gridwidth = 3;
     			  			  			  			  			  			  			  			  			  			  					gbc_closeMatch.fill = GridBagConstraints.HORIZONTAL;
     			  			  			  			  			  			  			  			  			  			  					gbc_closeMatch.gridx = 3;
     			  			  			  			  			  			  			  			  			  			  					gbc_closeMatch.gridy = 2;
@@ -902,7 +910,7 @@ private String lon ="";
 private ArrayList xmlLat;
 private ArrayList xmlLon;
 private int matchIndex;
-
+private Boolean entry=true;
 
 private JPanel dialogPane;
 private JPanel contentPanel;
