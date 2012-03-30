@@ -14,7 +14,19 @@
 - Full address search (street,city,province) implemented
   * Using DOM XML parsing to parse Google Geocode/Geolocation API
 
+=== Update (March 29 2012) ===
+- Map embeded without any major issues
+- Zooming implemented using JSlider
+- Panning implemented using JButtons
+- Way-Points partially implemented using markers
+- Full address search (street,city,province) implemented
+  * Using DOM XML parsing to parse Google Geocode/Geolocation API
+- Closest address match implemented using JComboBox
+  * Using DOM XML parsing to parse Google Geocode API to pull list of matching address
+- Overall look of application remade 
+
 Things Left:
-- Add routes between markers (using closest known point to lat/lon)
+- Add routes between markers (using closest known point to lat/lon) (May be cancelled due to time)
   * Need to parse (using DOM) Google Direction Service API for encoded path points
-- Make the application look prettier
+- Basic waypoints
+
