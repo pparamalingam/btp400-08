@@ -149,8 +149,8 @@ private void _setupTask() {
       DocumentBuilder db = dbf.newDocumentBuilder();
       Document doc = db.parse(new URL(xml).openStream());
       NodeList nodes = doc.getElementsByTagName("result");
-      xmlLat = new ArrayList(nodes.getLength());
-      xmlLon = new ArrayList(nodes.getLength());
+      xmlLat = new ArrayList<Double>(nodes.getLength());
+      xmlLon = new ArrayList<Double>(nodes.getLength());
 		for (int temp = 0; temp < nodes.getLength(); temp++) {
 			 
 			   Node nNode = nodes.item(temp);
@@ -843,6 +843,12 @@ private void initComponents() {
   sldZoom.setSnapToTicks(true);
   
   panelMap = new JPanel();
+  panelMap.addMouseWheelListener(new MouseWheelListener() {
+  	public void mouseWheelMoved(MouseWheelEvent e) {
+  		
+  	}
+  });
+  
   panelMap.addKeyListener(new KeyAdapter() {
   	@Override
   	public void keyPressed(KeyEvent e) {
@@ -939,6 +945,10 @@ private void initComponents() {
 
 // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 // Generated using JFormDesigner non-commercial license
+private static MapMarker A;
+private static MapMarker B;
+private static String path="";
+
 private JPanel panel4;
 private JPanel mapPane;
 private JButton btnPanUp;
@@ -951,9 +961,7 @@ private ArrayList xmlLat;
 private ArrayList xmlLon;
 private int matchIndex;
 private Boolean entry=true;
-private static MapMarker A;
-private static MapMarker B;
-private static String path="";
+
 
 private JPanel dialogPane;
 private JPanel contentPanel;
