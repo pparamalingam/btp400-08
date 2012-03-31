@@ -47,21 +47,10 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 
-
-
-
-
 /**
  * @author Preshoth
- * 
- */
-/**
- * @author Preshoth
- *
- */
-/**
- * @author Preshoth
- *
+ * @version 2.0
+ * @since March 15 2012
  */
 public class SampleApp extends JFrame {
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -293,6 +282,13 @@ private SwingUIHookAdapter _initHook(SwingUIHookAdapter hook) {
 }
 
 //Method Source from http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
+/**
+ * @author Preshoth - mykong
+ * @see http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
+ * @param sTag
+ * @param eElement
+ * @return  nodeValue
+ */
 private static String getTagValue(String sTag, Element eElement) {
 	NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
 
@@ -308,6 +304,7 @@ private static String getTagValue(String sTag, Element eElement) {
  * @throws MalformedURLException
  * @throws SAXException
  * @throws IOException
+ * @see http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
  */
 private static String getEncodedPath() throws ParserConfigurationException, MalformedURLException, SAXException, IOException{
 	
@@ -549,9 +546,9 @@ private void initComponents() {
   		//===== panel4 =====
   		panel4.setOpaque(false);
 		panel4.setLayout(new GridBagLayout());
-
+		
+		// Panning formula derived by Husain Fazal
   			btnPanUp = new JButton();
-  			
   			btnPanUp.setSize(2,2);
   			btnPanUp.setText("^");
   			btnPanUp.setHorizontalAlignment(SwingConstants.LEFT);
@@ -605,8 +602,10 @@ private void initComponents() {
   			gbc_btnPanUp.gridx = 3;
   			gbc_btnPanUp.gridy = 1;
   			panel4.add(btnPanUp, gbc_btnPanUp);
-  			btnPanRight = new JButton();
   			
+  			
+  			
+  			btnPanRight = new JButton();
   			btnPanRight.setSize(2,2);
   			btnPanRight.setText(">");
   			btnPanRight.setHorizontalAlignment(SwingConstants.LEFT);
