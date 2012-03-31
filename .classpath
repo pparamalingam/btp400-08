@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Preshoth/Downloads/geoip_service/geoip_service/lib/taskapi.jar"/>
+	<classpathentry kind="lib" path="/Users/preshoth/Downloads/geoip_service/lib/taskapi.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -845,7 +845,14 @@ private void initComponents() {
   panelMap = new JPanel();
   panelMap.addMouseWheelListener(new MouseWheelListener() {
   	public void mouseWheelMoved(MouseWheelEvent e) {
-  		
+  		int notches = e.getWheelRotation();
+        if (notches < 0){ 
+        	sldZoom.setValue(sldZoom.getValue()+1);
+        }
+        else{
+
+        	sldZoom.setValue(sldZoom.getValue()-1);
+        }        
   	}
   });
   
