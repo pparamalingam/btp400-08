@@ -283,7 +283,7 @@ private SwingUIHookAdapter _initHook(SwingUIHookAdapter hook) {
 
 //Method Source from http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
 /**
- * @author Preshoth - mykong
+ * @author Preshoth
  * @see http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
  * @param sTag
  * @param eElement
@@ -417,6 +417,16 @@ private void quitProgram() {
   System.exit(0);
 }
 
+/**
+ * @author Preshoth 
+ * <p>
+ * Removed external JFrame, embeded map into application<br>
+ * New swing components: 4 JButtons for panning, JSlider for zooming, JTextField for address searching, JComboBox for closest match of address list 
+ * <br>
+ * Added listeners for keyboard arrow keys to pan and mouse listener for scroll wheel to zoom
+ * <br>
+ * Cleaned up overall UI
+ */
 private void initComponents() {
   // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
   // Generated using JFormDesigner non-commercial license

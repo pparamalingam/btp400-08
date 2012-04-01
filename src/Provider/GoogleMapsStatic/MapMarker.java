@@ -15,6 +15,8 @@ import java.util.regex.*;
  * <p/>
  * markers=40.702147,-74.015794,blues|40.711614,-74.012318,greeng&key=MAPS_API_KEY
  */
+
+// MapMarker adjusted to match Google API standard of marker implementation
 public class MapMarker implements Serializable {
 static final long serialVersionUID = 5805831996822361347L;
 public static final String MarkerSeparator = "%7C";
