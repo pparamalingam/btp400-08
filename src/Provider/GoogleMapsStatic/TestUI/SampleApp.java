@@ -52,11 +52,13 @@ import org.xml.sax.SAXException;
  * @version 2.0
  * @since March 15 2012
  */
+@SuppressWarnings("serial")
 public class SampleApp extends JFrame {
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // data members
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 /** reference to task */
+@SuppressWarnings("rawtypes")
 private SimpleTask _task;
 /** this might be null. holds the image to display in a popup */
 private BufferedImage _img;
@@ -115,7 +117,7 @@ private void doInit() {
  * XML and HTTP, converts string address input into latitude and longitude in order to display correctly and add markers
  * Uses XML to pull encoded path data in order to draw directions accurately
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 
 
 
@@ -973,7 +975,9 @@ private JButton btnPanLeft;
 private JButton btnPanRight;
 private JSlider sldZoom;
 private JTextField address;
+@SuppressWarnings("rawtypes")
 private ArrayList xmlLat;
+@SuppressWarnings("rawtypes")
 private ArrayList xmlLon;
 private int matchIndex;
 private Boolean entry=true;
