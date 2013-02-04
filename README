@@ -1,3 +1,10 @@
+This project is a desktop client for Google Maps using the Google Maps Static API. The client is developed in Java using Swing
+for the user interface. The features are as follows:
+- Zooming
+- Panning
+- Address Lookup
+- Path Calculation Between Two Points (shortest path)
+
 - Have to fix warnings in current build (not mandatory according to pliu)
 - Embeded map into app and added zoom in and zoom out buttons (March 18 2012)
   * Overall look of the app will not be handled until near completion
