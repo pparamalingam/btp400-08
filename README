@@ -5,6 +5,9 @@ for the user interface. The features are as follows:
 - Address Lookup
 - Path Calculation Between Two Points (shortest path)
 
+Project Updates
+----------------
+
 - Have to fix warnings in current build (not mandatory according to pliu)
 - Embeded map into app and added zoom in and zoom out buttons (March 18 2012)
   * Overall look of the app will not be handled until near completion
